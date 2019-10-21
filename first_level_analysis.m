@@ -1,4 +1,4 @@
-function [] = first_level_analysis(sujet,smooth)
+function [] = first_level_analysis(sujet,smooth,reg,der)
 
     data_path = fileparts(mfilename('fullpath'));
     if isempty(data_path), data_path = pwd; end   
@@ -7,21 +7,34 @@ function [] = first_level_analysis(sujet,smooth)
     spm_jobman('initcfg');
     
     sujet = char(string(sujet));
-    smooth = char(string(smooth))
+    smooth = char(string(smooth));
+    reg = char(string(reg));
+    der = char(string(der));
     f = spm_select('FPList', fullfile(data_path,sujet,'unprocessed/3T/tfMRI_MOTOR_LR'), strcat('^',sujet,'_3T_tfMRI_MOTOR_LR.nii$'));
 
     clear matlabbatch
 
     onsets    = load(fullfile(data_path,'ev.mat'));
     condnames = {'lf' 'lh' 'rf' 'rh','t'};
-
-    matlabbatch{1}.spm.stats.fmri_spec.dir = {strcat(data_path,'/',sujet,'/analysis_smooth_',smooth)};
+    
+    
+    matlabbatch{1}.spm.stats.fmri_spec.dir = {strcat(data_path,'/',sujet,'/analysis/smooth_',smooth,'/reg_',reg,'/der_',der)};
     matlabbatch{1}.spm.stats.fmri_spec.timing.units = 'secs';
     matlabbatch{1}.spm.stats.fmri_spec.timing.RT = 0.753521126760563;
     matlabbatch{1}.spm.stats.fmri_spec.timing.fmri_t = 16;
     matlabbatch{1}.spm.stats.fmri_spec.timing.fmri_t0 = 8;
-    matlabbatch{1}.spm.stats.fmri_spec.bases.hrf.derivs = [1 0];
-    matlabbatch{1}.spm.stats.fmri_spec.sess.multi_reg = {strcat(data_path,'/',sujet,'/unprocessed/3T/tfMRI_MOTOR_LR/rp_',sujet,'_3T_tfMRI_MOTOR_LR.txt')};
+    
+    if der == '1'
+        matlabbatch{1}.spm.stats.fmri_spec.bases.hrf.derivs = [1 0];
+    elseif der == '0'
+        matlabbatch{1}.spm.stats.fmri_spec.bases.hrf.derivs = [0 0];
+    end
+    
+    if reg == '6'
+        matlabbatch{1}.spm.stats.fmri_spec.sess.multi_reg = {strcat(data_path,'/',sujet,'/unprocessed/3T/tfMRI_MOTOR_LR/rp_',sujet,'_3T_tfMRI_MOTOR_LR.txt')};
+    elseif reg == '24'
+        matlabbatch{1}.spm.stats.fmri_spec.sess.multi_reg = {strcat(data_path,'/',sujet,'/unprocessed/3T/tfMRI_MOTOR_LR/rp24_',sujet,'_3T_tfMRI_MOTOR_LR.txt')};
+    end    
     matlabbatch{1}.spm.stats.fmri_spec.sess.hpf = 128;
     
     %%
@@ -62,7 +75,7 @@ function [] = first_level_analysis(sujet,smooth)
     matlabbatch{1}.spm.stats.fmri_spec.sess.cond(5).duration = 12;
    
     
-    matlabbatch{2}.spm.stats.fmri_est.spmmat = cellstr(fullfile(data_path,strcat(sujet,'/analysis_smooth_',smooth),'SPM.mat'));
+    matlabbatch{2}.spm.stats.fmri_est.spmmat = cellstr(fullfile(data_path,strcat(sujet,'/analysis/smooth_',smooth,'/reg_',reg,'/der_',der),'SPM.mat'));
 
 
     spm_jobman('run',matlabbatch);
