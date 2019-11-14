@@ -1,8 +1,16 @@
 function [] = preprocessing(sujet,smooth)
 
+    % We carry out the preprocessing of the raw data with SPM. The .zip
+    % archive files for the functional and structural data have to be
+    % downloaded from the HCP website prior to the execution of the
+    % proprecessing. the subject variable is the 6-digit subject id and the
+    % smooth variable is the value of the FWHM for smoothing (either equal
+    % to 5 or to 8)
+
     data_path = fileparts(mfilename('fullpath'));
     if isempty(data_path), data_path = pwd; end    
-    % chemin du dossier
+    
+    % name of the directory
 
     
     spm('Defaults','fMRI');
@@ -13,15 +21,17 @@ function [] = preprocessing(sujet,smooth)
     
     
     
-    % On convertit le numéro de sujet en char pour construire les noms de
-    % dossiers et de fichiers par la suite
+    % The subject id and the smooth value are converted to char
 
-    sujet = char(string(sujet))
+    sujet = char(string(sujet));
+    smooth = char(string(smooth));
     
     
     
     
-    % On dezippe les fichiers téléchargés si ce n'est pas déjà fait
+    % The structural and functional files are unzipped if it has not been
+    % done already, i.e. if the following files or directories do not exist
+    % yet
 
     if not(isdir(strcat(sujet,'/unprocessed/3T/T1w_MPR1')))
         unzip(strcat(sujet,'_3T_Structural_unproc.zip'));
@@ -40,8 +50,8 @@ function [] = preprocessing(sujet,smooth)
     end
     
     
-    % On construit des variables qui contiennent les chemins complets des 
-    % fichiers fonctionnels et anatomiques
+    % We store the full path names of the functional and structural data in
+    % variables f and a
     
     f = spm_select('FPList', fullfile(data_path,sujet,'unprocessed/3T/tfMRI_MOTOR_LR'), strcat('^',sujet,'_3T_tfMRI_MOTOR_LR.nii$'));
     a = spm_select('FPList', fullfile(data_path,sujet,'unprocessed/3T/T1w_MPR1'), strcat('^',sujet,'_3T_T1w_MPR1.nii$'));
@@ -49,18 +59,15 @@ function [] = preprocessing(sujet,smooth)
     
     
     
-    % On effectue le recalage des images fonctionnelles si celui-là n'a pas
-    % déjà été fait        
+    % We realign the functional data if it has not been done already
 
     if not(isfile(strcat(sujet,'/unprocessed/3T/tfMRI_MOTOR_LR/r',sujet,'_3T_tfMRI_MOTOR_LR.nii')))
         matlabbatch{1}.spm.spatial.realign.estwrite.data{1} = cellstr(f);
         spm_jobman('run',matlabbatch);
         clear matlabbatch;
     end
-    
-    system(['bash mp_diffpow24.sh ',sujet,'/unprocessed/3T/tfMRI_MOTOR_LR/rp_',sujet,'_3T_tfMRI_MOTOR_LR.txt ',sujet,'/unprocessed/3T/tfMRI_MOTOR_LR/rp24_',sujet,'_3T_tfMRI_MOTOR_LR.txt']);
-    
-    % idem avec la normalisation
+        
+    % same with normalization
         
     if not(isfile(strcat(sujet,'/unprocessed/3T/tfMRI_MOTOR_LR/wr',sujet,'_3T_tfMRI_MOTOR_LR.nii')))
         matlabbatch{1}.spm.spatial.coreg.estimate.ref    = cellstr(spm_file(f,'prefix','mean'));
@@ -87,12 +94,12 @@ function [] = preprocessing(sujet,smooth)
     
     
     
-    % on effectue le lissage en fonction de la valeur de smooth, si
-    % celui-ci n'a pas déjà été fait ; on a la séquence pré-traitée
-    % complète dans le fichier avec le préfixe sXwr, X étant le paramètre
-    % de lissage
+    % We carry out the smoothing of the normalized data if it has not been
+    % done already. The full preprocessed sequence is then stored in the
+    % file with the prefix sXwr, with X being equal to the smoothing
+    % parameter entered as input
     
-    if smooth == 8
+    if smooth == '8'
         if not(isfile(strcat(sujet,'/unprocessed/3T/tfMRI_MOTOR_LR/s8wr',sujet,'_3T_tfMRI_MOTOR_LR.nii')))            
             matlabbatch{1}.spm.spatial.smooth.data = cellstr(spm_file(f,'prefix','wr'));
             matlabbatch{1}.spm.spatial.smooth.fwhm = [8 8 8];
@@ -100,7 +107,7 @@ function [] = preprocessing(sujet,smooth)
             spm_jobman('run',matlabbatch);
             clear matlabbatch;    
         end
-    elseif smooth == 5
+    elseif smooth == '5'
         if not(isfile(strcat(sujet,'/unprocessed/3T/tfMRI_MOTOR_LR/s5wr',sujet,'_3T_tfMRI_MOTOR_LR.nii')))            
             matlabbatch{1}.spm.spatial.smooth.data = cellstr(spm_file(f,'prefix','wr'));
             matlabbatch{1}.spm.spatial.smooth.fwhm = [5 5 5];
