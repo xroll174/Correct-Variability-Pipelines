@@ -1,16 +1,23 @@
-function [] = preprocessing(sujet,smooth)
+function [] = preprocessing(subject,smooth_value)
 
     % We carry out the preprocessing of the raw data with SPM. The .zip
     % archive files for the functional and structural data have to be
     % downloaded from the HCP website prior to the execution of the
     % proprecessing. the subject variable is the 6-digit subject id and the
-    % smooth variable is the value of the FWHM for smoothing (either equal
-    % to 5 or to 8)
+    % smooth_value variable is the FWHM value for smoothing (equal to 5 or
+    % 8). They can be entered as integer, string or character.
+    
+    % The fully preprocessed data file, as well as intermediate files
+    % (realigned, normalized) are present in the same directory as the
+    % original unprocessed functional data
+    % ({subject}/unprocessed/3T/tfMRI_MOTOR_LR})
 
+    
+    
     data_path = fileparts(mfilename('fullpath'));
     if isempty(data_path), data_path = pwd; end    
     
-    % name of the directory
+    % name of the directory is stored in data_path
 
     
     spm('Defaults','fMRI');
@@ -21,10 +28,10 @@ function [] = preprocessing(sujet,smooth)
     
     
     
-    % The subject id and the smooth value are converted to char
+    % subject and smooth_value are converted to char
 
-    sujet = char(string(sujet));
-    smooth = char(string(smooth));
+    subject = char(string(subject));
+    smooth_value = char(string(smooth_value));
     
     
     
@@ -33,43 +40,54 @@ function [] = preprocessing(sujet,smooth)
     % done already, i.e. if the following files or directories do not exist
     % yet
 
-    if not(isdir(strcat(sujet,'/unprocessed/3T/T1w_MPR1')))
-        unzip(strcat(sujet,'_3T_Structural_unproc.zip'));
+    if not(isdir(strcat(subject,'/unprocessed/3T/T1w_MPR1')))
+        unzip(strcat(subject,'_3T_Structural_unproc.zip'));
     end    
 
-    if not(isfile(strcat(sujet,'/unprocessed/3T/T1w_MPR1/',sujet,'_3T_T1w_MPR1.nii')))
-        gunzip(strcat(sujet,'/unprocessed/3T/T1w_MPR1/',sujet,'_3T_T1w_MPR1.nii.gz'));
+    if not(isfile(strcat(subject,'/unprocessed/3T/T1w_MPR1/',subject,'_3T_T1w_MPR1.nii')))
+        gunzip(strcat(subject,'/unprocessed/3T/T1w_MPR1/',subject,'_3T_T1w_MPR1.nii.gz'));
     end
  
-    if not(isdir(strcat(sujet,'/unprocessed/3T/tfMRI_MOTOR_LR')))
-        unzip(strcat(sujet,'_3T_tfMRI_MOTOR_unproc.zip'));
+    if not(isdir(strcat(subject,'/unprocessed/3T/tfMRI_MOTOR_LR')))
+        unzip(strcat(subject,'_3T_tfMRI_MOTOR_unproc.zip'));
     end    
 
-    if not(isfile(strcat(sujet,'/unprocessed/3T/tfMRI_MOTOR_LR/',sujet,'_3T_tfMRI_MOTOR_LR.nii')))
-        gunzip(strcat(sujet,'/unprocessed/3T/tfMRI_MOTOR_LR/',sujet,'_3T_tfMRI_MOTOR_LR.nii.gz'));
+    if not(isfile(strcat(subject,'/unprocessed/3T/tfMRI_MOTOR_LR/',subject,'_3T_tfMRI_MOTOR_LR.nii')))
+        gunzip(strcat(subject,'/unprocessed/3T/tfMRI_MOTOR_LR/',subject,'_3T_tfMRI_MOTOR_LR.nii.gz'));
     end
+    
     
     
     % We store the full path names of the functional and structural data in
     % variables f and a
     
-    f = spm_select('FPList', fullfile(data_path,sujet,'unprocessed/3T/tfMRI_MOTOR_LR'), strcat('^',sujet,'_3T_tfMRI_MOTOR_LR.nii$'));
-    a = spm_select('FPList', fullfile(data_path,sujet,'unprocessed/3T/T1w_MPR1'), strcat('^',sujet,'_3T_T1w_MPR1.nii$'));
+    f = spm_select('FPList', fullfile(data_path,subject,'unprocessed/3T/tfMRI_MOTOR_LR'), strcat('^',subject,'_3T_tfMRI_MOTOR_LR.nii$'));
+    a = spm_select('FPList', fullfile(data_path,subject,'unprocessed/3T/T1w_MPR1'), strcat('^',subject,'_3T_T1w_MPR1.nii$'));
     
     
     
     
     % We realign the functional data if it has not been done already
 
-    if not(isfile(strcat(sujet,'/unprocessed/3T/tfMRI_MOTOR_LR/r',sujet,'_3T_tfMRI_MOTOR_LR.nii')))
+    if not(isfile(strcat(subject,'/unprocessed/3T/tfMRI_MOTOR_LR/r',subject,'_3T_tfMRI_MOTOR_LR.nii')))
         matlabbatch{1}.spm.spatial.realign.estwrite.data{1} = cellstr(f);
         spm_jobman('run',matlabbatch);
         clear matlabbatch;
     end
-        
+    
+    % The motion regressors for the first-level analysis are stored in a
+    % file rp_{subject}.txt. We build the 24-regressor file
+    % rp24_{subject}.txt which also contains the derivatives, squares and
+    % squares of derivatives of the initial motion regressors, thanks to a
+    % bash script, mp_diffpow24.sh
+    
+    system(['bash mp_diffpow24.sh ',sujet,'/unprocessed/3T/tfMRI_MOTOR_LR/rp_',sujet,'_3T_tfMRI_MOTOR_LR.txt ',sujet,'/unprocessed/3T/tfMRI_MOTOR_LR/rp24_',sujet,'_3T_tfMRI_MOTOR_LR.txt']);
+    
+    
+    
     % same with normalization
         
-    if not(isfile(strcat(sujet,'/unprocessed/3T/tfMRI_MOTOR_LR/wr',sujet,'_3T_tfMRI_MOTOR_LR.nii')))
+    if not(isfile(strcat(subject,'/unprocessed/3T/tfMRI_MOTOR_LR/wr',subject,'_3T_tfMRI_MOTOR_LR.nii')))
         matlabbatch{1}.spm.spatial.coreg.estimate.ref    = cellstr(spm_file(f,'prefix','mean'));
         matlabbatch{1}.spm.spatial.coreg.estimate.source = cellstr(a);
 
@@ -99,16 +117,16 @@ function [] = preprocessing(sujet,smooth)
     % file with the prefix sXwr, with X being equal to the smoothing
     % parameter entered as input
     
-    if smooth == '8'
-        if not(isfile(strcat(sujet,'/unprocessed/3T/tfMRI_MOTOR_LR/s8wr',sujet,'_3T_tfMRI_MOTOR_LR.nii')))            
+    if smooth_value == '8'
+        if not(isfile(strcat(subject,'/unprocessed/3T/tfMRI_MOTOR_LR/s8wr',subject,'_3T_tfMRI_MOTOR_LR.nii')))            
             matlabbatch{1}.spm.spatial.smooth.data = cellstr(spm_file(f,'prefix','wr'));
             matlabbatch{1}.spm.spatial.smooth.fwhm = [8 8 8];
             matlabbatch{1}.spm.spatial.smooth.prefix = 's8';
             spm_jobman('run',matlabbatch);
             clear matlabbatch;    
         end
-    elseif smooth == '5'
-        if not(isfile(strcat(sujet,'/unprocessed/3T/tfMRI_MOTOR_LR/s5wr',sujet,'_3T_tfMRI_MOTOR_LR.nii')))            
+    elseif smooth_value == '5'
+        if not(isfile(strcat(subject,'/unprocessed/3T/tfMRI_MOTOR_LR/s5wr',subject,'_3T_tfMRI_MOTOR_LR.nii')))            
             matlabbatch{1}.spm.spatial.smooth.data = cellstr(spm_file(f,'prefix','wr'));
             matlabbatch{1}.spm.spatial.smooth.fwhm = [5 5 5];
             matlabbatch{1}.spm.spatial.smooth.prefix = 's5';
@@ -117,6 +135,12 @@ function [] = preprocessing(sujet,smooth)
         end    
     end
     
-    clean(sujet)
+    
+    
+    % Once the files have been created, we delete the .zip archives as well
+    % as the useless files and directories which are contained in the
+    % unzipped directories
+    
+    clean(subject)
     
 end
