@@ -81,7 +81,7 @@ function [] = preprocessing(subject,smooth_value)
     % squares of derivatives of the initial motion regressors, thanks to a
     % bash script, mp_diffpow24.sh
     
-    system(['bash mp_diffpow24.sh ',fullfile('data',sujet,'unprocessed','3T','tfMRI_MOTOR_LR','rp_',sujet,'_3T_tfMRI_MOTOR_LR.txt ',sujet,'/unprocessed/3T/tfMRI_MOTOR_LR/rp24_',sujet,'_3T_tfMRI_MOTOR_LR.txt']);
+    system(['bash mp_diffpow24.sh ',fullfile('data',subject,'unprocessed','3T','tfMRI_MOTOR_LR','rp_',subject,'_3T_tfMRI_MOTOR_LR.txt ',subject,'/unprocessed/3T/tfMRI_MOTOR_LR/rp24_',subject,'_3T_tfMRI_MOTOR_LR.txt']);
     
     
     
