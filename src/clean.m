@@ -6,24 +6,24 @@ function [] = clean(subject)
     % files and directories contained in the unzipped folder which are
     % useless for our study.
     
-    Lfile = [string(fullfile('..','data',[subject,'_3T_Structural_unproc.zip']));
-    string(fullfile('..','data',[subject,'_3T_Structural_unproc.zip.md5']));
-    string(fullfile('..','data',[subject,'_3T_tfMRI_MOTOR_unproc.zip']));
-    string(fullfile('..','data',[subject,'_3T_tfMRI_MOTOR_unproc.zip.md5']));
-    string(fullfile('..','data',[subject,'/unprocessed/3T/T1w_MPR1/',subject,'_3T_BIAS_32CH.nii.gz']));
-    string(fullfile('..','data',[subject,'/unprocessed/3T/T1w_MPR1/',subject,'_3T_BIAS_BC.nii.gz']));
-    string(fullfile('..','data',[subject,'/unprocessed/3T/T1w_MPR1/',subject,'_3T_FieldMap_Magnitude.nii.gz']));
-    string(fullfile('..','data',[subject,'/unprocessed/3T/T1w_MPR1/',subject,'_3T_FieldMap_Phase.nii.gz']));
-    string(fullfile('..','data',[subject,'/unprocessed/3T/T1w_MPR1/',subject,'_3T_MPR1.nii.gz']));
-    string(fullfile('..','data',[subject,'/unprocessed/3T/tfMRI_MOTOR_LR/',subject,'_3T_BIAS_32CH.nii.gz']));
-    string(fullfile('..','data',[subject,'/unprocessed/3T/tfMRI_MOTOR_LR/',subject,'_3T_BIAS_BC.nii.gz']));
-    string(fullfile('..','data',[subject,'/unprocessed/3T/tfMRI_MOTOR_LR/',subject,'_3T_SpinEchoFieldMap_LR.nii.gz']));
-    string(fullfile('..','data',[subject,'/unprocessed/3T/tfMRI_MOTOR_LR/',subject,'_3T_SpinEchoFieldMap_RL.nii.gz']));
-    string(fullfile('..','data',[subject,'/unprocessed/3T/tfMRI_MOTOR_LR/',subject,'_3T_tfMRI_MOTOR_LR.nii.gz']));
-    string(fullfile('..','data',[subject,'/unprocessed/3T/tfMRI_MOTOR_LR/',subject,'_3T_tfMRI_MOTOR_LR_SBRef.nii.gz']))];
+    Lfile = [string(fullfile('data',[subject,'_3T_Structural_unproc.zip']));
+    string(fullfile('data',[subject,'_3T_Structural_unproc.zip.md5']));
+    string(fullfile('data',[subject,'_3T_tfMRI_MOTOR_unproc.zip']));
+    string(fullfile('data',[subject,'_3T_tfMRI_MOTOR_unproc.zip.md5']));
+    string(fullfile('data',subject,'unprocessed','3T','T1w_MPR1',[subject,'_3T_BIAS_32CH.nii.gz']));
+    string(fullfile('data',subject,'unprocessed','3T','T1w_MPR1',[subject,'_3T_BIAS_BC.nii.gz']));
+    string(fullfile('data',subject,'unprocessed','3T','T1w_MPR1',[subject,'_3T_FieldMap_Magnitude.nii.gz']));
+    string(fullfile('data',subject,'unprocessed','3T','T1w_MPR1',[subject,'_3T_FieldMap_Phase.nii.gz']));
+    string(fullfile('data',subject,'unprocessed','3T','T1w_MPR1',[subject,'_3T_MPR1.nii.gz']));
+    string(fullfile('data',subject,'unprocessed','3T','tfMRI_MOTOR_LR',[subject,'_3T_BIAS_32CH.nii.gz']));
+    string(fullfile('data',subject,'unprocessed','3T','tfMRI_MOTOR_LR',[subject,'_3T_BIAS_BC.nii.gz']));
+    string(fullfile('data',subject,'unprocessed','3T','tfMRI_MOTOR_LR',[subject,'_3T_SpinEchoFieldMap_LR.nii.gz']));
+    string(fullfile('data',subject,'unprocessed','3T','tfMRI_MOTOR_LR',[subject,'_3T_SpinEchoFieldMap_RL.nii.gz']));
+    string(fullfile('data',subject,'unprocessed','3T','tfMRI_MOTOR_LR',[subject,'_3T_tfMRI_MOTOR_LR.nii.gz']));
+    string(fullfile('data',subject,'unprocessed','3T','tfMRI_MOTOR_LR',[subject,'_3T_tfMRI_MOTOR_LR_SBRef.nii.gz']))];
 
-    Ldir = [string([subject,'/unprocessed/3T/T2w_SPC1']);
-        string([subject,'/unprocessed/3T/tfMRI_MOTOR_RL'])];
+    Ldir = [string(fullfile('data',subject,'unprocessed','3T','T2w_SPC1'));
+        string(fullfile('data,'subject,'unprocessed','3T','tfMRI_MOTOR_RL']))];
     
     
     

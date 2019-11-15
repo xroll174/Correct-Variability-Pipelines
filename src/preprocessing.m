@@ -40,38 +40,36 @@ function [] = preprocessing(subject,smooth_value)
     % done already, i.e. if the following files or directories do not exist
     % yet
 
-    if not(isdir(fullfile('..','data',subject,'unprocessed','3T','T1w_MPR1')))
-        unzip(fullfile('..','data',[subject,'_3T_Structural_unproc.zip']));
+    if not(isdir(fullfile('data',subject,'unprocessed','3T','T1w_MPR1')))
+        unzip(fullfile('data',[subject,'_3T_Structural_unproc.zip']));
     end    
 
-    if not(isfile(fullfile('..','data',subject,'unprocessed','3T','T1w_MPR1',[subject,'_3T_T1w_MPR1.nii'])))
-        gunzip(fullfile('..','data',subject,'unprocessed','3T','T1w_MPR1',[subject,'_3T_T1w_MPR1.nii.gz']));
+    if not(isfile(fullfile('data',subject,'unprocessed','3T','T1w_MPR1',[subject,'_3T_T1w_MPR1.nii'])))
+        gunzip(fullfile('data',subject,'unprocessed','3T','T1w_MPR1',[subject,'_3T_T1w_MPR1.nii.gz']));
     end
  
-    if not(isdir(fullfile('..','data',subject,'unprocessed','3T','tfMRI_MOTOR_LR')))
-        unzip(fullfile('..','data',[subject,'_3T_tfMRI_MOTOR_unproc.zip']));
+    if not(isdir(fullfile('data',subject,'unprocessed','3T','tfMRI_MOTOR_LR')))
+        unzip(fullfile('data',[subject,'_3T_tfMRI_MOTOR_unproc.zip']));
     end    
 
-    if not(isfile(fullfile('..','data',subject,'unprocessed','3T','tfMRI_MOTOR_LR',[subject,'_3T_tfMRI_MOTOR_LR.nii'])))
-        gunzip(fullfile('..','data',subject,'unprocessed','3T','tfMRI_MOTOR_LR',[subject,'_3T_tfMRI_MOTOR_LR.nii.gz']));
+    if not(isfile(fullfile('data',subject,'unprocessed','3T','tfMRI_MOTOR_LR',[subject,'_3T_tfMRI_MOTOR_LR.nii'])))
+        gunzip(fullfile('data',subject,'unprocessed','3T','tfMRI_MOTOR_LR',[subject,'_3T_tfMRI_MOTOR_LR.nii.gz']));
     end
     
-    
-    % CONTINUER DE CHANGER LES DATA PATHS
-    
+        
     
     % We store the full path names of the functional and structural data in
     % variables f and a
     
-    f = spm_select('FPList', fullfile(data_path,subject,'unprocessed/3T/tfMRI_MOTOR_LR'), strcat('^',subject,'_3T_tfMRI_MOTOR_LR.nii$'));
-    a = spm_select('FPList', fullfile(data_path,subject,'unprocessed/3T/T1w_MPR1'), strcat('^',subject,'_3T_T1w_MPR1.nii$'));
+    f = spm_select('FPList', fullfile(data_path,'data',subject,'unprocessed','3T','tfMRI_MOTOR_LR'),['^',subject,'_3T_tfMRI_MOTOR_LR.nii$']);
+    a = spm_select('FPList', fullfile(data_path,'data',subject,'unprocessed','3T','T1w_MPR1'),['^',subject,'_3T_T1w_MPR1.nii$']);
     
     
     
     
     % We realign the functional data if it has not been done already
 
-    if not(isfile(strcat(subject,'/unprocessed/3T/tfMRI_MOTOR_LR/r',subject,'_3T_tfMRI_MOTOR_LR.nii')))
+    if not(isfile(fullfile('data',subject,'unprocessed','3T','tfMRI_MOTOR_LR',['r',subject,'_3T_tfMRI_MOTOR_LR.nii'])))
         matlabbatch{1}.spm.spatial.realign.estwrite.data{1} = cellstr(f);
         spm_jobman('run',matlabbatch);
         clear matlabbatch;
@@ -83,7 +81,7 @@ function [] = preprocessing(subject,smooth_value)
     % squares of derivatives of the initial motion regressors, thanks to a
     % bash script, mp_diffpow24.sh
     
-    system(['bash mp_diffpow24.sh ',sujet,'/unprocessed/3T/tfMRI_MOTOR_LR/rp_',sujet,'_3T_tfMRI_MOTOR_LR.txt ',sujet,'/unprocessed/3T/tfMRI_MOTOR_LR/rp24_',sujet,'_3T_tfMRI_MOTOR_LR.txt']);
+    system(['bash mp_diffpow24.sh ',fullfile('data',sujet,'unprocessed','3T','tfMRI_MOTOR_LR','rp_',sujet,'_3T_tfMRI_MOTOR_LR.txt ',sujet,'/unprocessed/3T/tfMRI_MOTOR_LR/rp24_',sujet,'_3T_tfMRI_MOTOR_LR.txt']);
     
     
     
