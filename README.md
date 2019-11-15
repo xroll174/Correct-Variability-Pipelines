@@ -21,6 +21,7 @@ The data used in the study are the functional and structural fMRI data from the 
 [full analysis]
 [FLA_list]
 [first_level_analysis]
+[extract_ev]
 [preprocessing]
 [clean, deldir, delfile]
 [second level analysis]
