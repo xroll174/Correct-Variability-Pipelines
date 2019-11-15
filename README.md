@@ -30,6 +30,6 @@ The data used in the study are the functional and structural fMRI data from the 
 
 [results]
 
-### reproducing full analysis
+## reproducing full analysis
 
 [reproducing full analysis]
