@@ -62,7 +62,7 @@ function [] = preprocessing(subject,smooth_value)
     % variables f and a
     
     f = spm_select('FPList', fullfile(data_path,'data',subject,'unprocessed','3T','tfMRI_MOTOR_LR'),['^',subject,'_3T_tfMRI_MOTOR_LR.nii$']);
-    a = spm_select('FPList', fullfile(data_path,'data',subject,'unprocessed','3T','T1w_MPR1'),['^',subject,'_3T_T1w_MPR1.nii$']);
+    a = spm_select('FPList', fullfile(data_path,'data',subject,'unprocessed','3T','T1w_MPR1',['^',subject,'_3T_T1w_MPR1.nii$']));
     
     
     
@@ -81,13 +81,14 @@ function [] = preprocessing(subject,smooth_value)
     % squares of derivatives of the initial motion regressors, thanks to a
     % bash script, mp_diffpow24.sh
     
-    system(['bash mp_diffpow24.sh ',fullfile('data',subject,'unprocessed','3T','tfMRI_MOTOR_LR','rp_',subject,'_3T_tfMRI_MOTOR_LR.txt ',subject,'/unprocessed/3T/tfMRI_MOTOR_LR/rp24_',subject,'_3T_tfMRI_MOTOR_LR.txt']);
+    system(['bash mp_diffpow24.sh ',fullfile('data',subject,'unprocessed','3T','tfMRI_MOTOR_LR',['rp_',subject,'_3T_tfMRI_MOTOR_LR.txt']),' ',fullfile('data',subject,'unprocessed','3T','tfMRI_MOTOR_LR',['rp24_',subject,'_3T_tfMRI_MOTOR_LR.txt'])]);
     
     
     
-    % same with normalization
+    % We perform the normalization of the realigned data if it has not been
+    % done already
         
-    if not(isfile(strcat(subject,'/unprocessed/3T/tfMRI_MOTOR_LR/wr',subject,'_3T_tfMRI_MOTOR_LR.nii')))
+    if not(isfile(fullfile('data',subject,'unprocessed','3T','tfMRI_MOTOR_LR',['wr',subject,'_3T_tfMRI_MOTOR_LR.nii'])))
         matlabbatch{1}.spm.spatial.coreg.estimate.ref    = cellstr(spm_file(f,'prefix','mean'));
         matlabbatch{1}.spm.spatial.coreg.estimate.source = cellstr(a);
 
@@ -118,7 +119,7 @@ function [] = preprocessing(subject,smooth_value)
     % parameter entered as input
     
     if smooth_value == '8'
-        if not(isfile(strcat(subject,'/unprocessed/3T/tfMRI_MOTOR_LR/s8wr',subject,'_3T_tfMRI_MOTOR_LR.nii')))            
+        if not(isfile(fullfile('data',subject,'unprocessed','3T','tfMRI_MOTOR_LR',['s8wr',subject,'_3T_tfMRI_MOTOR_LR.nii'])))            
             matlabbatch{1}.spm.spatial.smooth.data = cellstr(spm_file(f,'prefix','wr'));
             matlabbatch{1}.spm.spatial.smooth.fwhm = [8 8 8];
             matlabbatch{1}.spm.spatial.smooth.prefix = 's8';
@@ -126,7 +127,7 @@ function [] = preprocessing(subject,smooth_value)
             clear matlabbatch;    
         end
     elseif smooth_value == '5'
-        if not(isfile(strcat(subject,'/unprocessed/3T/tfMRI_MOTOR_LR/s5wr',subject,'_3T_tfMRI_MOTOR_LR.nii')))            
+        if not(isfile(fullfile('data',subject,'unprocessed','3T','tfMRI_MOTOR_LR',['s5wr',subject,'_3T_tfMRI_MOTOR_LR.nii'])))            
             matlabbatch{1}.spm.spatial.smooth.data = cellstr(spm_file(f,'prefix','wr'));
             matlabbatch{1}.spm.spatial.smooth.fwhm = [5 5 5];
             matlabbatch{1}.spm.spatial.smooth.prefix = 's5';
