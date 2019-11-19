@@ -116,6 +116,14 @@ function [] = first_level_analysis(subject,smooth_value,reg,der)
 
         matlabbatch{2}.spm.stats.fmri_est.spmmat = cellstr(fullfile(data_path,strcat(subject,'/analysis/smooth_',smooth_value,'/reg_',reg,'/der_',der),'SPM.mat'));
 
+        
+        nparam = (5 * str2num(der)) + str2num(reg)
+
+        matlabbatch{3}.spm.stats.con.spmmat = {'/run/media/xarollan/My Passport/HCP/100206/analysis/smooth_5/reg_0/der_0/SPM.mat'};
+        matlabbatch{3}.spm.stats.con.consess{1}.tcon.name = 'LF';
+        matlabbatch{3}.spm.stats.con.consess{1}.tcon.weights = [1,zeros(1,nparam)];
+        matlabbatch{3}.spm.stats.con.consess{1}.tcon.sessrep = 'none';
+        matlabbatch{3}.spm.stats.con.delete = 0;
 
         spm_jobman('run',matlabbatch);
         clear matlabbatch;

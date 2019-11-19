@@ -70,7 +70,21 @@ function [] = preprocessing(subject,smooth_value)
     % We realign the functional data if it has not been done already
 
     if not(isfile(fullfile('data',subject,'unprocessed','3T','tfMRI_MOTOR_LR',['r',subject,'_3T_tfMRI_MOTOR_LR.nii'])))
-        matlabbatch{1}.spm.spatial.realign.estwrite.data{1} = cellstr(f);
+        
+        matlabbatch{1}.spm.spatial.realign.estwrite.data = cellstr(f);
+        matlabbatch{1}.spm.spatial.realign.estwrite.eoptions.quality = 0.9;
+        matlabbatch{1}.spm.spatial.realign.estwrite.eoptions.sep = 4;
+        matlabbatch{1}.spm.spatial.realign.estwrite.eoptions.fwhm = 5;
+        matlabbatch{1}.spm.spatial.realign.estwrite.eoptions.rtm = 1;
+        matlabbatch{1}.spm.spatial.realign.estwrite.eoptions.interp = 2;
+        matlabbatch{1}.spm.spatial.realign.estwrite.eoptions.wrap = [0 0 0];
+        matlabbatch{1}.spm.spatial.realign.estwrite.eoptions.weight = '';
+        matlabbatch{1}.spm.spatial.realign.estwrite.roptions.which = [2 1];
+        matlabbatch{1}.spm.spatial.realign.estwrite.roptions.interp = 4;
+        matlabbatch{1}.spm.spatial.realign.estwrite.roptions.wrap = [0 0 0];
+        matlabbatch{1}.spm.spatial.realign.estwrite.roptions.mask = 1;
+        matlabbatch{1}.spm.spatial.realign.estwrite.roptions.prefix = 'r';
+
         spm_jobman('run',matlabbatch);
         clear matlabbatch;
     end
@@ -89,22 +103,45 @@ function [] = preprocessing(subject,smooth_value)
     % done already
         
     if not(isfile(fullfile('data',subject,'unprocessed','3T','tfMRI_MOTOR_LR',['wr',subject,'_3T_tfMRI_MOTOR_LR.nii'])))
-        matlabbatch{1}.spm.spatial.coreg.estimate.ref    = cellstr(spm_file(f,'prefix','mean'));
+        
+        matlabbatch{1}.spm.spatial.coreg.estimate.ref = cellstr(spm_file(f,'prefix','mean'));;
         matlabbatch{1}.spm.spatial.coreg.estimate.source = cellstr(a);
+        matlabbatch{1}.spm.spatial.coreg.estimate.other = {''};
+        matlabbatch{1}.spm.spatial.coreg.estimate.eoptions.cost_fun = 'nmi';
+        matlabbatch{1}.spm.spatial.coreg.estimate.eoptions.sep = [4 2];
+        matlabbatch{1}.spm.spatial.coreg.estimate.eoptions.tol = [0.02 0.02 0.02 0.001 0.001 0.001 0.01 0.01 0.01 0.001 0.001 0.001];
+        matlabbatch{1}.spm.spatial.coreg.estimate.eoptions.fwhm = [7 7];
 
+
+        matlabbatch{2}.spm.spatial.preproc.channel.write = [0 0];
         matlabbatch{2}.spm.spatial.preproc.channel.vols  = cellstr(a);
-        matlabbatch{2}.spm.spatial.preproc.channel.write = [0 1];
-        matlabbatch{2}.spm.spatial.preproc.warp.write    = [0 1];
+        matlabbatch{2}.spm.spatial.preproc.warp.mrf = 1;
+        matlabbatch{2}.spm.spatial.preproc.warp.cleanup = 1;
+        matlabbatch{2}.spm.spatial.preproc.warp.reg = [0 0.001 0.5 0.05 0.2];
+        matlabbatch{2}.spm.spatial.preproc.warp.affreg = 'mni';
+        matlabbatch{2}.spm.spatial.preproc.warp.fwhm = 0;
+        matlabbatch{2}.spm.spatial.preproc.warp.samp = 3;
+        matlabbatch{2}.spm.spatial.preproc.warp.write    = [0 0];
 
         defo = cellstr(spm_file(a,'prefix','y_','ext','nii'));
-
+        
         matlabbatch{3}.spm.spatial.normalise.write.subj.def      = cellstr(defo);
         matlabbatch{3}.spm.spatial.normalise.write.subj.resample = cellstr(char(spm_file(f,'prefix','r'),spm_file(f,'prefix','mean')));
-        matlabbatch{3}.spm.spatial.normalise.write.woptions.vox  = [3 3 3];
+        matlabbatch{3}.spm.spatial.normalise.write.woptions.bb = [-78 -112 -70
+                                                                  78 76 85];
+        matlabbatch{3}.spm.spatial.normalise.write.woptions.vox = [2 2 2];
+        matlabbatch{3}.spm.spatial.normalise.write.woptions.interp = 4;
+        matlabbatch{3}.spm.spatial.normalise.write.woptions.prefix = 'w';
+
 
         matlabbatch{4}.spm.spatial.normalise.write.subj.def      = cellstr(defo);
         matlabbatch{4}.spm.spatial.normalise.write.subj.resample = cellstr(char(spm_file(a,'prefix','m','ext','nii')));
-        matlabbatch{4}.spm.spatial.normalise.write.woptions.vox  = [1 1 1.5];
+        matlabbatch{4}.spm.spatial.normalise.write.woptions.bb = [-78 -112 -70
+                                                                  78 76 85];
+        matlabbatch{4}.spm.spatial.normalise.write.woptions.vox = [2 2 2];
+        matlabbatch{4}.spm.spatial.normalise.write.woptions.interp = 4;
+        matlabbatch{4}.spm.spatial.normalise.write.woptions.prefix = 'w';
+
 
         spm_jobman('run',matlabbatch);
         clear matlabbatch;    
@@ -122,6 +159,8 @@ function [] = preprocessing(subject,smooth_value)
         if not(isfile(fullfile('data',subject,'unprocessed','3T','tfMRI_MOTOR_LR',['s8wr',subject,'_3T_tfMRI_MOTOR_LR.nii'])))            
             matlabbatch{1}.spm.spatial.smooth.data = cellstr(spm_file(f,'prefix','wr'));
             matlabbatch{1}.spm.spatial.smooth.fwhm = [8 8 8];
+            matlabbatch{1}.spm.spatial.smooth.dtype = 0;
+            matlabbatch{1}.spm.spatial.smooth.im = 0;
             matlabbatch{1}.spm.spatial.smooth.prefix = 's8';
             spm_jobman('run',matlabbatch);
             clear matlabbatch;    
@@ -130,6 +169,8 @@ function [] = preprocessing(subject,smooth_value)
         if not(isfile(fullfile('data',subject,'unprocessed','3T','tfMRI_MOTOR_LR',['s5wr',subject,'_3T_tfMRI_MOTOR_LR.nii'])))            
             matlabbatch{1}.spm.spatial.smooth.data = cellstr(spm_file(f,'prefix','wr'));
             matlabbatch{1}.spm.spatial.smooth.fwhm = [5 5 5];
+            matlabbatch{1}.spm.spatial.smooth.dtype = 0;
+            matlabbatch{1}.spm.spatial.smooth.im = 0;
             matlabbatch{1}.spm.spatial.smooth.prefix = 's5';
             spm_jobman('run',matlabbatch);
             clear matlabbatch;    
