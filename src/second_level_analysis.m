@@ -26,12 +26,12 @@ function [] = second_level_analysis(list_1,list_2,smooth1,smooth2,reg1,reg2,der1
     
     L1 = [];
     for i = 1:length(list_1)
-        L1 = [L1;fullfile(data_path,'data',char(string(list_1(i))),'analysis',['smooth_',smooth1],['reg_',reg1],['der_',der1],'beta_0001.nii,1')]
+        L1 = [L1;fullfile(data_path,'data',char(string(list_1(i))),'analysis',['smooth_',smooth1],['reg_',reg1],['der_',der1],'con_0001.nii,1')]
     end    
     
     L2 = [];
     for i = 1:length(list_2)
-        L2 = [L2;fullfile(data_path,'data',char(string(list_2(i))),'analysis',['smooth_',smooth2],['reg_',reg2],['der_',der2],'beta_0001.nii,1')]
+        L2 = [L2;fullfile(data_path,'data',char(string(list_2(i))),'analysis',['smooth_',smooth2],['reg_',reg2],['der_',der2],'con_0001.nii,1')]
     end 
     
     % The files for the second level analysis are stored in the folder
@@ -66,6 +66,19 @@ function [] = second_level_analysis(list_1,list_2,smooth1,smooth2,reg1,reg2,der1
     matlabbatch{3}.spm.stats.con.consess{1}.tcon.weights = [-1 1];
     matlabbatch{3}.spm.stats.con.consess{1}.tcon.sessrep = 'none';
     matlabbatch{3}.spm.stats.con.delete = 0;
+
+        
+    matlabbatch{1}.spm.stats.results.spmmat = {fullfile(data_path,'data',folder,['smooth_',smooth1,'_',smooth2],['reg_',reg1,'_',reg2],['der_',der1,'_',der2],'SPM.mat')};
+    matlabbatch{1}.spm.stats.results.conspec.titlestr = '';
+    matlabbatch{1}.spm.stats.results.conspec.contrasts = Inf;
+    matlabbatch{1}.spm.stats.results.conspec.threshdesc = 'none';
+    matlabbatch{1}.spm.stats.results.conspec.thresh = 0.001;
+    matlabbatch{1}.spm.stats.results.conspec.extent = 0;
+    matlabbatch{1}.spm.stats.results.conspec.conjunction = 1;
+    matlabbatch{1}.spm.stats.results.conspec.mask.none = 1;
+    matlabbatch{1}.spm.stats.results.units = 1;
+    matlabbatch{1}.spm.stats.results.export{1}.ps = true;
+
     
     spm_jobman('run',matlabbatch);
     clear matlabbatch;
