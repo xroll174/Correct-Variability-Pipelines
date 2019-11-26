@@ -1,5 +1,10 @@
-function [] = preprocessing(subject,smooth_value)
-
+function [] = preprocessing_2(subject,smooth_value)
+  
+    % Second version of preprocessing with modifications to make it compatible 
+    % with Octave (temporary version)
+  
+  
+  
     % We carry out the preprocessing of the raw data with SPM. The .zip
     % archive files for the functional and structural data have to be
     % downloaded from the HCP website prior to the execution of the
@@ -30,8 +35,8 @@ function [] = preprocessing(subject,smooth_value)
     
     % subject and smooth_value are converted to char
 
-    subject = char(string(subject));
-    smooth_value = char(string(smooth_value));
+    subject = num2str(subject);
+    smooth_value = num2str(smooth_value);
     
     
     
@@ -41,18 +46,18 @@ function [] = preprocessing(subject,smooth_value)
     % yet
 
     if not(isdir(fullfile('data',subject,'unprocessed','3T','T1w_MPR1')))
-        unzip(fullfile('data',[subject,'_3T_Structural_unproc.zip']),'data');
+        unzip(fullfile('data',[subject,'_3T_Structural_unproc.zip']));
     end    
 
-    if not(isfile(fullfile('data',subject,'unprocessed','3T','T1w_MPR1',[subject,'_3T_T1w_MPR1.nii'])))
+    if not(exist(fullfile('data',subject,'unprocessed','3T','T1w_MPR1',[subject,'_3T_T1w_MPR1.nii'])))
         gunzip(fullfile('data',subject,'unprocessed','3T','T1w_MPR1',[subject,'_3T_T1w_MPR1.nii.gz']));
     end
  
     if not(isdir(fullfile('data',subject,'unprocessed','3T','tfMRI_MOTOR_LR')))
-        unzip(fullfile('data',[subject,'_3T_tfMRI_MOTOR_unproc.zip']),'data');
+        unzip(fullfile('data',[subject,'_3T_tfMRI_MOTOR_unproc.zip']));
     end    
 
-    if not(isfile(fullfile('data',subject,'unprocessed','3T','tfMRI_MOTOR_LR',[subject,'_3T_tfMRI_MOTOR_LR.nii'])))
+    if not(exist(fullfile('data',subject,'unprocessed','3T','tfMRI_MOTOR_LR',[subject,'_3T_tfMRI_MOTOR_LR.nii'])))
         gunzip(fullfile('data',subject,'unprocessed','3T','tfMRI_MOTOR_LR',[subject,'_3T_tfMRI_MOTOR_LR.nii.gz']));
     end
     
@@ -70,9 +75,9 @@ function [] = preprocessing(subject,smooth_value)
     
     % We realign the functional data if it has not been done already
 
-    if not(isfile(fullfile('data',subject,'unprocessed','3T','tfMRI_MOTOR_LR',['r',subject,'_3T_tfMRI_MOTOR_LR.nii'])))
+    if not(exist(fullfile('data',subject,'unprocessed','3T','tfMRI_MOTOR_LR',['r',subject,'_3T_tfMRI_MOTOR_LR.nii'])))
         
-        matlabbatch{1}.spm.spatial.realign.estwrite.data = {cellstr(f)};
+        matlabbatch{1}.spm.spatial.realign.estwrite.data = {cellstr(f1)};
         matlabbatch{1}.spm.spatial.realign.estwrite.eoptions.quality = 0.9;
         matlabbatch{1}.spm.spatial.realign.estwrite.eoptions.sep = 4;
         matlabbatch{1}.spm.spatial.realign.estwrite.eoptions.fwhm = 5;
@@ -88,6 +93,9 @@ function [] = preprocessing(subject,smooth_value)
 
         spm_jobman('run',matlabbatch);
         clear matlabbatch;
+        
+        system(['bash mp_diffpow24.sh ',fullfile('data',subject,'unprocessed','3T','tfMRI_MOTOR_LR',['rp_',subject,'_3T_tfMRI_MOTOR_LR.txt']),' ',fullfile('data',subject,'unprocessed','3T','tfMRI_MOTOR_LR',['rp24_',subject,'_3T_tfMRI_MOTOR_LR.txt'])]);
+
     end
     
     % The motion regressors for the first-level analysis are stored in a
@@ -96,17 +104,17 @@ function [] = preprocessing(subject,smooth_value)
     % squares of derivatives of the initial motion regressors, thanks to a
     % bash script, mp_diffpow24.sh
     
-    system(['bash mp_diffpow24.sh ',fullfile('data',subject,'unprocessed','3T','tfMRI_MOTOR_LR',['rp_',subject,'_3T_tfMRI_MOTOR_LR.txt']),' ',fullfile('data',subject,'unprocessed','3T','tfMRI_MOTOR_LR',['rp24_',subject,'_3T_tfMRI_MOTOR_LR.txt'])]);
     
     
     
     % We perform the normalization of the realigned data if it has not been
     % done already
         
-    if not(isfile(fullfile('data',subject,'unprocessed','3T','tfMRI_MOTOR_LR',['wr',subject,'_3T_tfMRI_MOTOR_LR.nii'])))
+    if not(exist(fullfile('data',subject,'unprocessed','3T','tfMRI_MOTOR_LR',['wr',subject,'_3T_tfMRI_MOTOR_LR.nii'])))
         
-        matlabbatch{1}.spm.spatial.coreg.estimate.ref = cellstr(spm_file(f,'prefix','mean'));
-        matlabbatch{1}.spm.spatial.coreg.estimate.source = cellstr(a);
+
+        matlabbatch{1}.spm.spatial.coreg.estimate.ref = {spm_file(f,'prefix','mean')};
+        matlabbatch{1}.spm.spatial.coreg.estimate.source = {a1};
         matlabbatch{1}.spm.spatial.coreg.estimate.other = {''};
         matlabbatch{1}.spm.spatial.coreg.estimate.eoptions.cost_fun = 'nmi';
         matlabbatch{1}.spm.spatial.coreg.estimate.eoptions.sep = [4 2];
@@ -114,38 +122,39 @@ function [] = preprocessing(subject,smooth_value)
         matlabbatch{1}.spm.spatial.coreg.estimate.eoptions.fwhm = [7 7];
 
 
-        matlabbatch{2}.spm.spatial.preproc.channel.write = [0 1];
-        matlabbatch{2}.spm.spatial.preproc.channel.vols  = cellstr(a);
+        matlabbatch{2}.spm.spatial.preproc.channel.write = [0 0];
+        matlabbatch{2}.spm.spatial.preproc.channel.vols  = {a1};
         matlabbatch{2}.spm.spatial.preproc.warp.mrf = 1;
         matlabbatch{2}.spm.spatial.preproc.warp.cleanup = 1;
         matlabbatch{2}.spm.spatial.preproc.warp.reg = [0 0.001 0.5 0.05 0.2];
         matlabbatch{2}.spm.spatial.preproc.warp.affreg = 'mni';
         matlabbatch{2}.spm.spatial.preproc.warp.fwhm = 0;
         matlabbatch{2}.spm.spatial.preproc.warp.samp = 3;
-        matlabbatch{2}.spm.spatial.preproc.warp.write    = [0 1];
+        matlabbatch{2}.spm.spatial.preproc.warp.write    = [1 1];
+        
+        spm_jobman('run',matlabbatch);
+        clear matlabbatch;    
 
         defo = cellstr(spm_file(a,'prefix','y_'));
-
         
-        matlabbatch{3}.spm.spatial.normalise.write.subj.def      = cellstr(defo);
-        matlabbatch{3}.spm.spatial.normalise.write.subj.resample = cellstr(char(spm_file(f,'prefix','r'),spm_file(f,'prefix','mean')));
-        matlabbatch{3}.spm.spatial.normalise.write.woptions.bb = [-78 -112 -70
+        matlabbatch{1}.spm.spatial.normalise.write.subj.def      = defo;
+        matlabbatch{1}.spm.spatial.normalise.write.subj.resample = cellstr([spm_file(f1,'prefix','r');spm_file(f,'prefix','mean')]);
+        matlabbatch{1}.spm.spatial.normalise.write.woptions.bb = [-78 -112 -70
                                                                   78 76 85];
-        matlabbatch{3}.spm.spatial.normalise.write.woptions.vox = [2 2 2];
-        matlabbatch{3}.spm.spatial.normalise.write.woptions.interp = 4;
-        matlabbatch{3}.spm.spatial.normalise.write.woptions.prefix = 'w';
+        matlabbatch{1}.spm.spatial.normalise.write.woptions.vox = [2 2 2];
+        matlabbatch{1}.spm.spatial.normalise.write.woptions.interp = 4;
+        matlabbatch{1}.spm.spatial.normalise.write.woptions.prefix = 'w';
 
 
-        matlabbatch{4}.spm.spatial.normalise.write.subj.def      = cellstr(defo);
-        matlabbatch{4}.spm.spatial.normalise.write.subj.resample = cellstr(char(spm_file(a,'prefix','m')));
-        matlabbatch{4}.spm.spatial.normalise.write.woptions.bb = [-78 -112 -70
+        matlabbatch{2}.spm.spatial.normalise.write.subj.def      = defo;
+        matlabbatch{2}.spm.spatial.normalise.write.subj.resample = cellstr(spm_file(a1,'prefix','m'));
+        matlabbatch{2}.spm.spatial.normalise.write.woptions.bb = [-78 -112 -70
                                                                   78 76 85];
-        matlabbatch{4}.spm.spatial.normalise.write.woptions.vox = [2 2 2];
-        matlabbatch{4}.spm.spatial.normalise.write.woptions.interp = 4;
-        matlabbatch{4}.spm.spatial.normalise.write.woptions.prefix = 'w';
+        matlabbatch{2}.spm.spatial.normalise.write.woptions.vox = [2 2 2];
+        matlabbatch{2}.spm.spatial.normalise.write.woptions.interp = 4;
+        matlabbatch{2}.spm.spatial.normalise.write.woptions.prefix = 'w';
 
-        
-        
+
         spm_jobman('run',matlabbatch);
         clear matlabbatch;    
     end
@@ -159,8 +168,8 @@ function [] = preprocessing(subject,smooth_value)
     % parameter entered as input
     
     if smooth_value == '8'
-        if not(isfile(fullfile('data',subject,'unprocessed','3T','tfMRI_MOTOR_LR',['s8wr',subject,'_3T_tfMRI_MOTOR_LR.nii'])))            
-            matlabbatch{1}.spm.spatial.smooth.data = cellstr(spm_file(f,'prefix','wr'));
+        if not(exist(fullfile('data',subject,'unprocessed','3T','tfMRI_MOTOR_LR',['s8wr',subject,'_3T_tfMRI_MOTOR_LR.nii'])))            
+            matlabbatch{1}.spm.spatial.smooth.data = {cellstr(spm_file(f1,'prefix','wr'))};
             matlabbatch{1}.spm.spatial.smooth.fwhm = [8 8 8];
             matlabbatch{1}.spm.spatial.smooth.dtype = 0;
             matlabbatch{1}.spm.spatial.smooth.im = 0;
@@ -169,8 +178,8 @@ function [] = preprocessing(subject,smooth_value)
             clear matlabbatch;    
         end
     elseif smooth_value == '5'
-        if not(isfile(fullfile('data',subject,'unprocessed','3T','tfMRI_MOTOR_LR',['s5wr',subject,'_3T_tfMRI_MOTOR_LR.nii'])))            
-            matlabbatch{1}.spm.spatial.smooth.data = cellstr(spm_file(f,'prefix','wr'));
+        if not(exist(fullfile('data',subject,'unprocessed','3T','tfMRI_MOTOR_LR',['s5wr',subject,'_3T_tfMRI_MOTOR_LR.nii'])))            
+            matlabbatch{1}.spm.spatial.smooth.data = {cellstr(spm_file(f1,'prefix','wr'))};
             matlabbatch{1}.spm.spatial.smooth.fwhm = [5 5 5];
             matlabbatch{1}.spm.spatial.smooth.dtype = 0;
             matlabbatch{1}.spm.spatial.smooth.im = 0;
@@ -185,7 +194,5 @@ function [] = preprocessing(subject,smooth_value)
     % Once the files have been created, we delete the .zip archives as well
     % as the useless files and directories which are contained in the
     % unzipped directories
-    
-    clean(subject)
     
 end
