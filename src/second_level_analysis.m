@@ -63,21 +63,21 @@ function [] = second_level_analysis(list_1,list_2,smooth1,smooth2,reg1,reg2,der1
         
     matlabbatch{3}.spm.stats.con.spmmat = {fullfile(data_path,'data',folder,['smooth_',smooth1,'_',smooth2],['reg_',reg1,'_',reg2],['der_',der1,'_',der2],'SPM.mat')};
     matlabbatch{3}.spm.stats.con.consess{1}.tcon.name = 'Diff';
-    matlabbatch{3}.spm.stats.con.consess{1}.tcon.weights = [-1 1];
+    matlabbatch{3}.spm.stats.con.consess{1}.tcon.weights = [1 -1];
     matlabbatch{3}.spm.stats.con.consess{1}.tcon.sessrep = 'none';
     matlabbatch{3}.spm.stats.con.delete = 0;
 
         
-    matlabbatch{4}.spm.stats.results.spmmat = {fullfile(data_path,'data',folder,['smooth_',smooth1,'_',smooth2],['reg_',reg1,'_',reg2],['der_',der1,'_',der2],'SPM.mat')};
-    matlabbatch{4}.spm.stats.results.conspec.titlestr = '';
-    matlabbatch{4}.spm.stats.results.conspec.contrasts = Inf;
-    matlabbatch{4}.spm.stats.results.conspec.threshdesc = 'none';
-    matlabbatch{4}.spm.stats.results.conspec.thresh = 0.001;
-    matlabbatch{4}.spm.stats.results.conspec.extent = 0;
-    matlabbatch{4}.spm.stats.results.conspec.conjunction = 1;
-    matlabbatch{4}.spm.stats.results.conspec.mask.none = 1;
-    matlabbatch{4}.spm.stats.results.units = 1;
-    matlabbatch{4}.spm.stats.results.export{1}.ps = true;
+    matlabbatch{1}.spm.stats.results.spmmat = {fullfile(data_path,'data',folder,['smooth_',smooth1,'_',smooth2],['reg_',reg1,'_',reg2],['der_',der1,'_',der2],'SPM.mat')};
+    matlabbatch{1}.spm.stats.results.conspec.titlestr = '';
+    matlabbatch{1}.spm.stats.results.conspec.contrasts = Inf;
+    matlabbatch{1}.spm.stats.results.conspec.threshdesc = 'none';
+    matlabbatch{1}.spm.stats.results.conspec.thresh = 0.001;
+    matlabbatch{1}.spm.stats.results.conspec.extent = 0;
+    matlabbatch{1}.spm.stats.results.conspec.conjunction = 1;
+    matlabbatch{1}.spm.stats.results.conspec.mask.none = 1;
+    matlabbatch{1}.spm.stats.results.units = 1;
+    matlabbatch{1}.spm.stats.results.export{1}.tspm.basename = 'thresholded';
 
     
     spm_jobman('run',matlabbatch);
