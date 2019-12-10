@@ -24,12 +24,6 @@ for i = 1:length(LC)
     % group are stored in a folder called 'Group_i', in subfolders
     % depending on the parameter values
     
-    C = cell(4,9,4)
-
-    % For a given group, we store the values of the false positive rates
-    % for each of the 144 couples of pipelines in a cell of dimensions
-    % 4x9x4
-    
     
     folder_name = ['Group_',num2str(i)];
 
@@ -44,16 +38,12 @@ for i = 1:length(LC)
                             % first pipeline and j2, k2, l2 for the second
                             % one
                             
-                            FPR = full_analysis(list_groups(i,1:30),list_groups(i,31:60),param_smooth(j1),param_smooth(j2),param_reg(k1),param_reg(k2),param_der(l1),param_der(l2),folder_name);
-                            C(2*j2+j1+1,3*k2+k1+1,2*l2+l1+1) = FPR;
-                            
                         end
                     end
                 end
             end
         end
         
-        save(fullfile('data',folder_name,'false_positive_rates.mat'),'C')
     end
     
 end
