@@ -31,7 +31,7 @@ function [] = first_level_analysis_octave(subject,smooth_value,reg,der)
     % we do the preprocessing if it has not already been done for the
     % smoothing value which has been entered.
     
-    if not(isfile(fullfile('data',subject,'unprocessed','3T','tfMRI_MOTOR_LR',['s',smooth_value,'wr',subject,'_3T_tfMRI_MOTOR_LR.nii']))) 
+    if not(exist(fullfile('data',subject,'unprocessed','3T','tfMRI_MOTOR_LR',['s',smooth_value,'wr',subject,'_3T_tfMRI_MOTOR_LR.nii']))) 
         preprocessing(subject, smooth_value);
     end
     
@@ -44,7 +44,7 @@ function [] = first_level_analysis_octave(subject,smooth_value,reg,der)
     % order to indicate the onset times, thanks to an auxiliary function
     % extract_ev.
 
-    if not(isfile(fullfile('data',subject,'ev.mat')))
+    if not(exist(fullfile('data',subject,'ev.mat')))
         ev = extract_ev_octave(subject);
         save(fullfile('data',subject,'ev.mat'),'ev');
     end
@@ -60,7 +60,7 @@ function [] = first_level_analysis_octave(subject,smooth_value,reg,der)
     % {subject}/analysis/smooth_i/reg_j/der_k/, as well as the estimated
     % parameters Beta_i.
     
-    if not(isfile(fullfile(data_path,'data',subject,'analysis',['smooth_',smooth_value],['reg_',reg],['der_',der],'SPM.mat')))
+    if not(exist(fullfile(data_path,'data',subject,'analysis',['smooth_',smooth_value],['reg_',reg],['der_',der],'SPM.mat')))
         matlabbatch{1}.spm.stats.fmri_spec.dir = {fullfile(data_path,'data',subject,'analysis',['smooth_',smooth_value],['reg_',reg],['der_',der])};
         matlabbatch{1}.spm.stats.fmri_spec.timing.units = 'secs';
         matlabbatch{1}.spm.stats.fmri_spec.timing.RT = 0.753521126760563;
