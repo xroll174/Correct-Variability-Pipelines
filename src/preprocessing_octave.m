@@ -192,5 +192,6 @@ function [] = preprocessing_octave(subject,smooth_value)
     % Once the files have been created, we delete the .zip archives as well
     % as the useless files and directories which are contained in the
     % unzipped directories
-    
+
+    clean_octave(subject);
 end
