@@ -61,7 +61,9 @@ function [] = first_level_analysis_octave(subject,smooth_value,reg,der)
     % parameters Beta_i.
     
     if not(exist(fullfile(data_path,'data',subject,'analysis',['smooth_',smooth_value],['reg_',reg],['der_',der],'SPM.mat')))
-        matlabbatch{1}.spm.stats.fmri_spec.dir = {fullfile(data_path,'data',subject,'analysis',['smooth_',smooth_value],['reg_',reg],['der_',der])};
+      pwd
+      mkdir_mult(fullfile('data',subject,'analysis',['smooth_',smooth_value],['reg_',reg],['der_',der]))
+      matlabbatch{1}.spm.stats.fmri_spec.dir = {fullfile(data_path,'data',subject,'analysis',['smooth_',smooth_value],['reg_',reg],['der_',der])};
         matlabbatch{1}.spm.stats.fmri_spec.timing.units = 'secs';
         matlabbatch{1}.spm.stats.fmri_spec.timing.RT = 0.753521126760563;
         matlabbatch{1}.spm.stats.fmri_spec.timing.fmri_t = 16;
