@@ -18,14 +18,14 @@ param_smooth = ['5','8'];
 param_reg = ['0','6','24'];
 param_der = ['0','1'];
 
-for i = 1:length(LC)
+for i = 1:length(list_groups)
     
     % The design matrix and estimated parameters and contrasts for a given
-    % group are stored in a folder called 'Group_i', in subfolders
+	  % group are stored in a folder called 'SLA{i}', in subfolders
     % depending on the parameter values
     
     
-    folder_name = ['Group_',num2str(i)];
+    folder_name = ['SLA',num2str(i)];
 
     for j1 = 1:length(param_smooth)
         for j2 = 1:length(param_smooth)
@@ -37,7 +37,9 @@ for i = 1:length(LC)
                             % j1, k1, l1 give the parameter values for the
                             % first pipeline and j2, k2, l2 for the second
                             % one
-                            
+			    
+                            FPR = full_analysis(list_groups(i,1:30),list_groups(i,31:60),param_smooth(j1),param_smooth(j2),param_reg(k1),param_reg(k2),param_der(l1),param_der(l2),folder_name);
+
                         end
                     end
                 end

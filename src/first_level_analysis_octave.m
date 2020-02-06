@@ -32,7 +32,7 @@ function [] = first_level_analysis_octave(subject,smooth_value,reg,der)
     % smoothing value which has been entered.
     
     if not(exist(fullfile('data',subject,'unprocessed','3T','tfMRI_MOTOR_LR',['s',smooth_value,'wr',subject,'_3T_tfMRI_MOTOR_LR.nii']))) 
-        preprocessing(subject, smooth_value);
+        preprocessing_octave(subject, smooth_value);
     end
     
     

@@ -35,11 +35,11 @@ function [] = clean(subject)
     
     for i = 1:length(Lfile)
         j = char(Lfile(i));
-        delfile(j);
+        delete(j);
     end
     
     for i = 1:length(Ldir)
         j = char(Ldir(i));
-        deldir(j);
+        rmdir(j);
     end    
 end

@@ -13,6 +13,4 @@ function [rate] = full_analysis(list_1,list_2,smooth1,smooth2,reg1,reg2,der1,der
     second_level_analysis(list_1,list_2,smooth1,smooth2,reg1,reg2,der1,der2,folder)
     
     rate = false_positive_rate(smooth1,smooth2,reg1,reg2,der1,der2,folder)
-    
-    save(fullfile('data',folder,['smooth_',smooth1,'_',smooth2],['reg_',reg1,'_',reg2],['der_',der1,'_',der2],'FPR.mat'),'rate')
 end
