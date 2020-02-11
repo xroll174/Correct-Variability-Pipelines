@@ -87,8 +87,8 @@ The complete preprocessing/first-level analysis for all the 1080 subjects with t
 ```
 
 
-*NB: due to a question of available space for the data, scripts for partial analysis (specific steps of the analysis or specific subjects) were used. These scripts are named `./bash_scripts/{analysis step}_{parameters}_list.sh` and take as input the list of subjects id to be processed, for example :*
-`./bash_scripts/fla_5_6_1.sh "100206 113821 204218"` *performs first-level analysis (and preprocessing) with FWHM=5 for smoothing, 6 motion regressors and presence of temporal derivatives) for subjects with id 100206, 113821 and 204218.*
+*NB: due to a question of available space for the data, scripts for partial analysis (specific steps of the analysis or specific subjects) were used. These scripts are named* `./bash_scripts/{analysis step}_{parameters}_list.sh` *and take as input the list of subjects id to be processed, for example :*
+`./bash_scripts/fla_5_6_1.sh "100206 113821 204218"` *performs first-level analysis (and preprocessing if not done already) with FWHM=5 for smoothing, 6 motion regressors and presence of temporal derivatives) for subjects with id 100206, 113821 and 204218.*
 
 ### Second-level analysis and false positive rates
 
