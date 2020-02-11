@@ -74,4 +74,43 @@ These scripts are independent from the computing grid that we have used. Other s
 
 ## reproducing full analysis
 
-[reproducing full analysis]
+To run the experiments described in the manuscript, the archives for the unprocessed structural data and functional data for the Motor Paradigm of the 1080 subjects who have completed the study must be downloaded on https://db.humanconnectome.org/ into the data folder.
+
+### Preprocessing and first-level analysis
+
+Bash scripts stored in the bash_scripts folder were used to perform the preprocessing and first-level analysis of the subjects for all the necessary pipelines by calling the Octave functions described below. Octave 5.1 and SPM12 for Octave must be installed on the computer to perform the analysis correctly. The folder path for SPM12 must be specified in the file `./bash_scripts/spmpath.txt`.
+
+The complete preprocessing/first-level analysis for all the 1080 subjects with the 12 pipelines can be reproduced by running the following script from a Terminal in the parent folder :
+
+```
+./bash_scripts/preproc_fla_complete.sh
+```
+
+NB: however, due to a question of available space for the data, scripts for partial analysis (specific steps of the analysis or specific subjects) were used. These scripts are named `./bash_scripts/{analysis step}_{parameters}_list.sh` and take as input the list of subjects id to be processed, for example :
+
+`./bash_scripts/fla_5_6_1.sh "100206 113821 204218"` performs first-level analysis (and preprocessing) with FWHM=5 for smoothing, 6 motion regressors and presence of temporal derivatives) for subjects with id 100206, 113821 and 204218.
+
+### Second-level analysis and false positive rates
+
+Second-level analysis was performed using Matlab R2017b. To perform second-level analysis with given parameters for both group pipelines (here 5, 6 and 1 for both groups), run the following code inside Matlab :
+
+```
+addpath src
+G1 = importdata('list_couples_subjects_HCP.mat')
+for i=1:1000
+	second_level_analysis(G1(i,1:30),G1(i,31:60),5,5,6,6,1,1,['SLA',num2str(i),'bis'])
+end
+```
+
+Which will create the unthresholded and thresholded maps for the second-level analysis in specific subfolders of folders data/SLA{i}bis (for each group {i}).
+
+To obtain the false positive rates within each thresholded map for given parameters (as above), run the following code in Matlab :
+
+```
+addpath src
+for i=1:1000
+	false_positive_rate(5,5,6,6,1,1,['SLA',num2str(i),'bis'])
+end
+```
+
+The false positive rate will be stored in a file FPR.mat within the subfolder of the second-level analysis for each group.
