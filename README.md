@@ -16,15 +16,11 @@ The repository contains Matlab functions and scripts for the execution of prepro
 
 The data used in the study are the functional and structural fMRI data from the HCP subjects who have completed the Motor Task (*{subject}\_3T_Structural_unproc.zip* and *{subject}\_3T_tfMRI_MOTOR_unproc.zip*). They have to be downloaded from the HCP website into the data folder in order to allow the functions and scripts to work.
 
-## functions and scripts
+## functions
 
-Matlab functions have been created to carry out the various steps of the analysis. The functions created for the study can be used to perform either a complete analysis for given groups of subjects and pipeline parameters, or simply parts of the analysis.
+Matlab functions have been created to carry out the various steps of the analysis. The functions created for the study can be used to perform either a complete analysis for given groups of subjects and pipeline parameters, or simply parts of the analysis. Versions of the Matlab functions that are compatible with Octave have also been created (with *\_octave* added at the end of the filename) ; those are the versions that are called in the bash scripts when running the analysis.
 
-For our study, a computing grid has been used to launch multiple jobs at the same time and thus allow the parallelization of the preprocessing and first-level analysis of multiple subjects. The use of this computing grid implies creating **bash scripts** launching the functions for the different parameters. In order to perform the tasks in parallel without limitations caused by Matlab licenses, we use **Octave command lines** within the bash scripts. For this reason, **versions of the Matlab functions that are compatible with Octave have been created** (with *\_octave* added at the end of the filename) ; those are the versions that are called in the bash scripts.
-
-With this, it is possible to either perform the analysis steps directly via Octave/Matlab or via bash scripts. Octave/Matlab functions and auxiliary files are stored in the **src folder**, whereas bash scripts are stored in the **bash_scripts folder** (the scripts, as well as the functions, are meant to be executed in the parent folder which contains the data folder). ***The path of the SPM folder has to be specified in the file bash_scripts/spmpath.txt***. Also, if there is a need to execute the bash scripts with the functions in a directory other than src, its name and absolute or relative path can be specified in **bash_scripts/srcpath.txt**.
-
-A last directory, **check_scripts**, contains bash scripts which verify the existence of some files resulting from the analysis steps, in order to check that these analysis steps were performed correctly.
+Octave/Matlab functions and auxiliary files are stored in the **src folder**. If there is a need to put the functions in a directory other than src, its name and absolute or relative path can be specified in **bash_scripts/srcpath.txt**.
 
 ### full_analysis
 
@@ -59,14 +55,6 @@ The first level analysis data are stored in the folder *{subject}/analysis/smoot
 The function first unzip the data if the unzipped data does not exist yet. Realignment, normalization and smoothing are performed on the data. If the preprocessing has already been done on the subject with another smoothing value, realignment and normalization have already been carried out and the function only performs smoothing on the already normalized data.
 
 Once the data have been preprocessed once, the zip archives are useless, as well as some of the data that are contained in the unzipped folder. We use a function **clean**, which deletes a list of directories and files using other functions **deldir** and **delfile** that delete a directory or file after checking if it exists.
-
-### bash scripts
-
-The bash scripts, contained in the bash_script folder, perform partial and complete analysis with Octave command lines calling the Octave functions that have been created.
-
-Scripts for preprocessing and first-level analysis with specific parameters are named **{analysis step}\_{parameters}\_list.sh** (*preprocessing_5_list.sh* or *fla_5_6_1.sh* for example). They take a list of subjects as input : *./bash_scripts/preprocessing_5_list.sh “211922  206828  137128”* will perform preprocessing with a smoothing parameter equal to 5 on subjects 21922, 206828 and 137128.
-
-These scripts are independent from the computing grid that we have used. Other scripts related to these have been made, in order to use the computing grid for parallel computations, to perform the same task: these files have the same names with “_IGRIDA” at the end. These are the scripts that we used to perform the preprocessing and first-level analysis.
 
 ## results
 
