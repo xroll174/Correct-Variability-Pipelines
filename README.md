@@ -18,9 +18,9 @@ The data used in the study are the functional and structural fMRI data from the 
 
 ## functions
 
-Matlab functions have been created to carry out the various steps of the analysis. The functions created for the study can be used to perform either a complete analysis for given groups of subjects and pipeline parameters, or simply parts of the analysis. Versions of the Matlab functions that are compatible with Octave have also been created (with *\_octave* added at the end of the filename) ; those are the versions that are called in the bash scripts when running the analysis.
+Matlab functions have been created to carry out the various steps of the analysis. The functions created for the study can be used to perform either a complete analysis for given groups of subjects and pipeline parameters, or simply parts of the analysis. Versions of the Matlab functions that are compatible with Octave have also been created (with *\_octave* added at the end of the filename) ; those are the versions that are called in the bash scripts when running the analysis (see *reproducing full analysis* below).
 
-Octave/Matlab functions and auxiliary files are stored in the **src folder**. If there is a need to put the functions in a directory other than src, its name and absolute or relative path can be specified in **bash_scripts/srcpath.txt**.
+Octave/Matlab functions and auxiliary files are stored in the **src folder**.
 
 ### full_analysis
 
@@ -66,7 +66,7 @@ To run the experiments described in the manuscript, the archives for the unproce
 
 ### Preprocessing and first-level analysis
 
-Bash scripts stored in the bash_scripts folder were used to perform the preprocessing and first-level analysis of the subjects for all the necessary pipelines by calling the Octave functions described below. Octave 5.1 and SPM12 for Octave must be installed on the computer to perform the analysis correctly. The folder path for SPM12 must be specified in the file `./bash_scripts/spmpath.txt`.
+Bash scripts stored in the bash_scripts folder were used to perform the preprocessing and first-level analysis of the subjects for all the necessary pipelines by calling the Octave functions described below. Octave 5.1 and SPM12 for Octave must be installed on the computer to perform the analysis correctly. The folder path for SPM12 must be specified in the file `./bash_scripts/spmpath.txt`. Also, if there is a need to put the functions in a directory other than src, the name and absolute or relative path of this directory can be specified in `bash_scripts/srcpath.txt`.
 
 The complete preprocessing/first-level analysis for all the 1080 subjects with the 12 pipelines can be reproduced by running the following script from a Terminal in the parent folder :
 
@@ -80,7 +80,7 @@ The complete preprocessing/first-level analysis for all the 1080 subjects with t
 
 ### Second-level analysis and false positive rates
 
-Second-level analysis was performed using Matlab R2017b. To perform second-level analysis with given parameters for both group pipelines (here 5, 6 and 1 for both groups), run the following code inside Matlab :
+Second-level analysis was performed using Matlab R2017b. To perform second-level analysis with given parameters for both group pipelines (here 5, 6 and 1 for both groups), run the following code inside Matlab:
 
 ```
 addpath src
