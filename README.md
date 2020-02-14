@@ -62,11 +62,17 @@ Once the data have been preprocessed once, the zip archives are useless, as well
 
 ## reproducing full analysis
 
-To run the experiments described in the manuscript, the archives for the unprocessed structural data and functional data for the Motor Paradigm of the 1080 subjects who have completed the study must be downloaded on https://db.humanconnectome.org/ into the data folder.
+### Downloading the raw data
+
+Archives of the unprocessed structural data and functional data for the Motor Paradigm of the 1080 subjects of the Human Connectome Project who have completed the study must be downloaded on https://db.humanconnectome.org/ into the `data` folder.
+
+### Dependencies and setup
+Octave 5.1 and SPM12 for Octave must be installed on the computer to perform the analysis correctly.
+
+The folder path for SPM12 must be specified in the file `./bash_scripts/spmpath.txt`. Also, if there is a need to put the functions in a directory other than src, the name and absolute or relative path of this directory can be specified in `bash_scripts/srcpath.txt`.
+
 
 ### Preprocessing and first-level analysis
-
-Bash scripts stored in the bash_scripts folder were used to perform the preprocessing and first-level analysis of the subjects for all the necessary pipelines by calling the Octave functions described below. Octave 5.1 and SPM12 for Octave must be installed on the computer to perform the analysis correctly. The folder path for SPM12 must be specified in the file `./bash_scripts/spmpath.txt`. Also, if there is a need to put the functions in a directory other than src, the name and absolute or relative path of this directory can be specified in `bash_scripts/srcpath.txt`.
 
 The complete preprocessing/first-level analysis for all the 1080 subjects with the 12 pipelines can be reproduced by running the following script from a Terminal in the parent folder :
 
