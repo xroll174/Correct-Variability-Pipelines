@@ -19,9 +19,6 @@
 %   {subject}/analysis/smooth_i/reg_j/der_k with i, j and k being the parameter
 %   values entered as input.
 
-%   FLA_list does the same but with a list of subject instead of a single subject,
-%   using first_level_analysis as an auxiliary function.
-
 
 
 
