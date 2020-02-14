@@ -1,3 +1,23 @@
+%   preprocessing takes a subject id and a smoothing FWHM value, and
+%   performs the preprocessing of the data with the smoothing value given
+%   as input if it has not already been done.
+%   (Example : preprocessing(100206,5))
+
+%   The function first unzip the data if the unzipped data does not exist
+%   yet. Realignment, normalization and smoothing are performed on the data.
+%   If the preprocessing has already been done on the subject with another
+%   smoothing value, realignment and normalization have already been carried
+%   out and the function only performs smoothing on the already normalized data.
+
+%   Once the data have been preprocessed once, the zip archives are useless,
+%   as well as some of the data that are contained in the unzipped folder. We
+%   use a function clean, which deletes a list of directories and files using
+%   other functions deldir and delfile that delete a directory or file after
+%   checking if it exists.
+
+
+
+
 function [] = preprocessing(subject,smooth_value)
 
     % We carry out the preprocessing of the raw data with SPM. The .zip
