@@ -62,7 +62,9 @@ Once the data have been preprocessed once, the zip archives are useless, as well
 
 ## reproducing full analysis
 
-To run the experiments described in the manuscript, the archives for the unprocessed structural data and functional data for the Motor Paradigm of the 1080 subjects who have completed the study must be downloaded on https://db.humanconnectome.org/ into the data folder.
+### Downloading the raw data
+
+Archives of the unprocessed structural data and functional data for the Motor Paradigm of the 1080 subjects of the Human Connectome Project who have completed the study must be downloaded on https://db.humanconnectome.org/ into the `data` folder.
 
 ### Preprocessing and first-level analysis
 
