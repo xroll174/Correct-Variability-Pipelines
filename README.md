@@ -7,10 +7,16 @@
 [CITATION]
 
 # Contents Overview
+This repository contains code to reproduce the analyses and figures of the manuscript cited above. The code is organised as follows:
 
-The goal of our study is to preprocess and analyzed data from the Human Connectome Project at the first-level using different pipelines, which differ from each other on specific parameters, and then carry out group analyses on groups of subjects data which have been processed either with the same pipeline or with different pipelines, to see if there are significant differences in results that are induced by the preprocessing and first-level analysis pipelines.
-
-The repository contains Matlab functions and scripts for the execution of preprocessing, first-level and second level analysis SPM pipelines on subjects data taken from the Human Connectome Project. These functions take as input subjects id or list of subjects id from the HCP data, as well as parameters chosen for the pipeline (value of the FHWM for smoothing, number of motion regressors and presence or absence of temporal derivatives of the main regressors in the first-level design matrix).
+```
+.
+├── bash_scripts: <Add description here>
+├── check_scripts: <Add description here>
+├── data: <Add description here>
+├── results: <Add description here>
+└── src: <Add description here>
+```
 
 ## data
 
