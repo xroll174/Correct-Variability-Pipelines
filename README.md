@@ -52,7 +52,7 @@ For example `./bash_scripts/fla_5_6_1_IGRIDA.sh "100206 113821 204218"` performs
 
 We have two scripts for preprocessing and 12 scripts for first-level analysis. The whole preprocessing and first-level analysis was performed by calling each of these scripts on the whole 1080 subjects.
 
-*NB: For practical reasons, a computing grid was used and the scripts mentioned above specifically use it to submit jobs. For persons who do not have access to the computing grid, the following scripts can perform the same task: * `./bash_scripts/{analysis step}_{parameters}_list.sh` (same name without the _IGRIDA suffix)
+*NB: For practical reasons, a computing grid was used and the scripts mentioned above specifically use it to submit jobs. For persons who do not have access to the computing grid, the following scripts can perform the same task:* `./bash_scripts/{analysis step}_{parameters}_list.sh` *(same name without the _IGRIDA suffix)*
 
 ### Second-level analysis and false positive rates
 
