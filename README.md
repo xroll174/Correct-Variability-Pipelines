@@ -46,15 +46,13 @@ The folder path for SPM12 must be specified in the file `./bash_scripts/spmpath.
 
 ### Preprocessing and first-level analysis
 
-The complete preprocessing/first-level analysis for all the 1080 subjects with the 12 pipelines can be reproduced by running the following script from a Terminal in the parent folder :
+Preprocessing and first-level analysis for the 1080 subjects were done using scripts for each parameter valuation, named `./bash_scripts/preprocessing_{parameter values}_list_IGRIDA.sh` and `./bash_scripts/fla_{parameter values}_list_IGRIDA.sh`, which take as input a list of id of subjects that we want to process.
 
-```
-./bash_scripts/preproc_fla_complete.sh
-```
+For example `./bash_scripts/fla_5_6_1_IGRIDA.sh "100206 113821 204218"` performs first-level analysis (and preprocessing if not done already) with FWHM=5 for smoothing, 6 motion regressors and presence of temporal derivatives for subjects with id 100206, 113821 and 204218.
 
+We have two scripts for preprocessing and 12 scripts for first-level analysis. The whole preprocessing and first-level analysis was performed by calling each of these scripts on the whole 1080 subjects.
 
-*NB: due to a question of available space for the data, scripts for partial analysis (specific steps of the analysis or specific subjects) were used. These scripts are named* `./bash_scripts/{analysis step}_{parameters}_list.sh` *and take as input the list of subjects id to be processed, for example :*
-`./bash_scripts/fla_5_6_1.sh "100206 113821 204218"` *performs first-level analysis (and preprocessing if not done already) with FWHM=5 for smoothing, 6 motion regressors and presence of temporal derivatives) for subjects with id 100206, 113821 and 204218.*
+*NB: For practical reasons, a computing grid was used and the scripts mentioned above specifically use it to submit jobs. For persons who do not have access to the computing grid, the following scripts can perform the same task: * `./bash_scripts/{analysis step}_{parameters}_list.sh` (same name without the _IGRIDA suffix)
 
 ### Second-level analysis and false positive rates
 
