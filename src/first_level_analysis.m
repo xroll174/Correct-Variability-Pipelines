@@ -1,3 +1,27 @@
+%   first_level_analysis takes as input a subject id, smoothing, regressor and
+%   derivative parameters, and carry out the first level analysis (creation of
+%   the design matrix SPM.mat and estimation of the beta_i) on the subject for
+%   the given parameters unless it has already been done. The preprocessing of
+%   the data is also carried out if it has not already been done. (Example :
+%   first_level_analysis(100206,5,6,1))
+
+%   As described in the task fMRI protocol details for the Human Connectome
+%   Project, the main regressors ar five movement types (left foot, left hand,
+%   right foot, right hand, tongue) with block events lasting for 12 seconds
+%   with amplitude 1. The event times, which are slightly different for each
+%   subject, are stored in FSL format in files lf.txt, lh.txt, rf.txt, rh.txt
+%   and t.txt in the folder
+%   {subject}/unprocessed/3T/tfMRI_MOTOR_LR/LINKED_DATA/EPRIME/EVs. We use an
+%   auxiliary function extract_ev to create a file {subject}/ev.mat which
+%   contains the event times for the subject.
+
+%   The first level analysis data are stored in the folder
+%   {subject}/analysis/smooth_i/reg_j/der_k with i, j and k being the parameter
+%   values entered as input.
+
+
+
+
 function [] = first_level_analysis(subject,smooth_value,reg,der)
 
 

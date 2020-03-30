@@ -1,3 +1,15 @@
+%    second_level_analysis takes the same inputs as full_analysis and creates
+%    the statistical maps at the second level in the folder defined above for
+%    full_analysis. The subjects must already have been preprocessed and
+%    analyzed at the first level in order to carry out the second level
+%    analysis. A design matrix SPM.mat is created in the folder, and a
+%    contrast [-1 1] is applied to have the difference between both groups.
+%    (Example : second_level_analysis(L1,L2,5,8,6,24,0,1,'folder_name'))
+
+
+
+
+
 function [] = second_level_analysis(list_1,list_2,smooth1,smooth2,reg1,reg2,der1,der2,folder)
     
     % A group analysis is performed for two groups of subjects
