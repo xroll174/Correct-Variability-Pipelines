@@ -48,7 +48,7 @@ The folder path for SPM12 must be specified in the file `./bash_scripts/spmpath.
 
 Preprocessing and first-level analysis for the 1080 subjects were done using scripts for each parameter valuation, named `./bash_scripts/preprocessing_{parameter values}_list_IGRIDA.sh` and `./bash_scripts/fla_{parameter values}_list_IGRIDA.sh`, which take as input a list of id of subjects that we want to process.
 
-For example `./bash_scripts/fla_5_6_1_IGRIDA.sh "100206 113821 204218"` performs first-level analysis (and preprocessing if not done already) with FWHM=5 for smoothing, 6 motion regressors and presence of temporal derivatives for subjects with id 100206, 113821 and 204218.
+For example `./bash_scripts/fla_5_6_1_list_IGRIDA.sh "100206 113821 204218"` performs first-level analysis (and preprocessing if not done already) with FWHM=5 for smoothing, 6 motion regressors and presence of temporal derivatives for subjects with id 100206, 113821 and 204218.
 
 We have two scripts for preprocessing and 12 scripts for first-level analysis. The whole preprocessing and first-level analysis was performed by calling each of these scripts on the whole 1080 subjects.
 
@@ -56,25 +56,8 @@ We have two scripts for preprocessing and 12 scripts for first-level analysis. T
 
 ### Second-level analysis and false positive rates
 
-Second-level analysis was performed using Matlab R2017b. To perform second-level analysis with given parameters for both group pipelines (here 5, 6 and 1 for both groups), run the following code inside Matlab:
+Bash scripts were also used for second-level analysis and extraction of false positive rates. A single script named `./bash_scripts/second_level_analysis_param_IGRIDA.sh`, performs the 1000 inter-group analysis for two pipelines, with their parameters as input. For example, `./bash_scripts/second_level_analysis_param_IGRIDA.sh 5 8 6 24 0 1` performs the 1000 inter-group analysis with the first group processed with the pipeline with FWHM smoothing kernel equal to 5mm, 6 motion regressors and no temporal derivatives, and the second group processed with the pipeline with FWHM smoothing kernel equal to 8mm, 24 motion regressors and presence of temporal derivatives.
 
-```
-addpath src
-G1 = importdata('list_couples_subjects_HCP.mat')
-for i=1:1000
-	second_level_analysis(G1(i,1:30),G1(i,31:60),5,5,6,6,1,1,['SLA',num2str(i),'bis'])
-end
-```
+For each inter-group analysis {i}, the unthresholded and thresholded maps for second level analysis with specific parameters are stored in a specific subfolder of folder data/SLA{i}\_50 (for example, with the parameters given above, data/SLA{i}\_50/smooth\_5\_8/reg\_6\_24/der\_0\_1).
 
-Which will create the unthresholded and thresholded maps for the second-level analysis in specific subfolders of folders data/SLA{i}bis (for each group {i}).
-
-To obtain the false positive rates within each thresholded map for given parameters (as above), run the following code in Matlab :
-
-```
-addpath src
-for i=1:1000
-	false_positive_rate(5,5,6,6,1,1,['SLA',num2str(i),'bis'])
-end
-```
-
-The false positive rate will be stored in a file FPR.mat within the subfolder of the second-level analysis for each group.
+Once all the inter-group analysis for a given pair of pipeline are done, the false positive rates are extracted for each inter-group analysis using the script `./bash_scripts/false_positive_rate_full_param_IGRIDA.sh` which take as input the parameter values of both pipelines, like the second-level analysis script, and stores the false positive rate value for each inter-group analysis in a FPR.mat file within the inter-group analysis folder (for example, data/SLA{i}\_50/smooth\_5\_8/reg\_6\_24/der\_0\_1/FPR.mat for the parameters given above).
