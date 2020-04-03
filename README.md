@@ -7,7 +7,7 @@
 [CITATION]
 
 # Contents Overview
-This repository contains code to reproduce the analyses and figures of the manuscript cited above. The code is organised as follows:
+This repository contains code that was used to analyze and create the figures of the manuscript cited above. The code is organised as follows:
 
 ```
 .
