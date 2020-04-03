@@ -32,7 +32,7 @@ Octave/Matlab functions and auxiliary files are stored in the **src folder**. Th
 
 [results]
 
-## reproducing full analysis
+## Data analysis
 
 ### Downloading the raw data
 
