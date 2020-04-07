@@ -45,7 +45,7 @@ The folder path for SPM12 was specified in the file `./bash_scripts/spmpath.txt`
 
 First, we performed the preprocessing and first-level analysis for the 1080 subjects with the following pipelines:
  - `5_6_1`: smoothing FWHM=5, 6 motion regressors, HRF with temporal derivatives
- - `ADD_OTHER_PIPELINES_HERE`
+ - `5_0_0`, `5_0_1`, `5_6_0`, `5_24_0`, `5_24_1`, `8_0_0`, `8_0_1`, `8_6_0`, `8_6_1`, `8_24_0`, `8_24_1`
 using `./bash_scripts/preprocessing_{parameter values}_list_IGRIDA.sh` (preprocessing) and `./bash_scripts/fla_{parameter values}_list_IGRIDA.sh` (first-level analyses) where `{parameter values}` is replaced by the code given above for each pipeline.
 
 We have two scripts for preprocessing and 12 scripts for first-level analysis. 
