@@ -11,5 +11,5 @@ spmpath=$(cat $DIR/spmpath.txt)
 for ((i=0; i<${#sub[@]};i++))
 do
     echo ${sub[i]}
-    octave --eval "addpath $spmpath; addpath $srcpath; first_level_analysis_octave(${sub[i]},8,6,1)"
+    octave --eval "addpath $spmpath; addpath $srcpath; first_level_analysis_octave_2(${sub[i]},8,6,0)"
 done
