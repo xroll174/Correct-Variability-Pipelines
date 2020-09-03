@@ -1,1 +1,1 @@
-pipelines/src/src
+src/src
