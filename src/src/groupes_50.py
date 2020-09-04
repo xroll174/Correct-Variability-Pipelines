@@ -15,14 +15,14 @@ def couple(s,n):
     return (l2,l3)
     
 
-def liste_parties(e,s,n): #Construit une liste de e sous-ensembles d'entiers construits avec la fct partie
+def liste_parties(e,s,n): #Construit une liste de e sous-ensembles d'entiers de taille s construits avec la fct partie
     l0 = []
     for i in range(e):
         l1 = partie(s,n)
         l0.append(l1)
     return l0
 
-def liste_couples(e,s,n): #Construit une liste de e couples de sous-ensembles d'entiers construits avec la fct couple
+def liste_couples(e,s,n): #Construit une liste de e couples de sous-ensembles d'entiers de taille s construits avec la fct couple
     l0 = []
     for i in range(e):
         l1 = couple(s,n)
@@ -30,7 +30,19 @@ def liste_couples(e,s,n): #Construit une liste de e couples de sous-ensembles d'
     return l0
 
 random.seed(10)
-liste_1 = liste_couples(1000,30,1080)
+liste_1 = liste_couples(1000,50,1080)
+
+liste_couples_1 = open("liste_couples_sujets_50.csv","w")
+
+for i in range(1000):
+    print(i)
+    for j in range(2):
+        for k in range(50):
+            liste_couples_1.write(str(liste_1[i][j][k]))
+            if (k != 49 or j!= 1):
+                liste_couples_1.write(", ")
+    liste_couples_1.write("\n")
+liste_couples_1.close()
 
 
 def intersection(l1,l2):
