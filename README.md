@@ -47,7 +47,7 @@ The folder path for SPM12 was specified in the file `.src/bash_scripts/spmpath.t
 
 First, we performed the preprocessing and first-level analysis for the 1080 subjects with the following pipelines: `5_0_0`, `5_0_1`, `5_6_0`, `5_6_1`, `5_24_0`, `5_24_1`, `8_0_0`, `8_0_1`, `8_6_0`, `8_6_1`, `8_24_0`, `8_24_1`, where the first value is the smoothing kernel FWHM in mm, the second value is the number of motion regressors and the last value indicates the presence or absence of the HRF's temporal derivatives in the GLM model.
 
-the scripts `./src/bash_scripts/preprocessing_{parameter values}_list_IGRIDA.sh` and `./src/bash_scripts/fla_{parameter values}_list_hand_IGRIDA.sh` were used for preprocessing and first-level analysis respectively, where `{parameter values}` is replaced by `5` or `8` in preprocessing, and by the code given above for each pipeline in first-level analysis. Therefore we have two scripts for preprocessing and 12 scripts for first-level analysis.
+the scripts `./src/bash_scripts/preprocessing_{parameter values}_list_IGRIDA.sh` were used for preprocessing.  `./src/bash_scripts/fla_{parameter values}_list_IGRIDA.sh` scripts were used to perform first-level analysis and create the left foot contrast, and `./src/bash_scripts/fla_{parameter values}_list_hand_IGRIDA.sh` to obtain the right hand contrast. `{parameter values}` is replaced by `5` or `8` in preprocessing, and by the code given above for each pipeline in first-level analysis. Therefore we have two scripts for preprocessing and 12 scripts for first-level analysis for each contrast.
 
 ### Preprocessing and first-level analysis with FSL
 
