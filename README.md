@@ -33,6 +33,11 @@ The folder path for SPM12 was specified in the file `.src/bash_scripts/spmpath.t
 
 Run  `./src/bash_scripts/preprocessing_<PARAMETER_VALUES>_list_IGRIDA.sh "<SUB1> <SUB2> <SUB3>"` in a terminal where `<SUB1>`, `<SUB2>`, `<SUB3>`... are the HCP subject identifiers as found in `src/src/list_subjects_ordered_full.txt` (this can be used to run preprocessing for part of the subjects to account for reduced storage space) and `<PARAMETER_VALUES>` is taken from the table below.
 
+| PARAMETERS_VALUES        | Pipeline parameters           |
+| ------------- |:-------------:|
+| 5      | smoothing 5mm |
+| 8      | smoothing 8mm |
+
 ### First-Level Analysis with SPM
 
 1. To perform first-level analysis and obtain the first contrast (left foot), run `./src/bash_scripts/fla_<PARAMETER_VALUES>_list_IGRIDA.sh "<SUB1> <SUB2> <SUB3>"` in a terminal where `<SUB1>`, `<SUB2>`, `<SUB3>`... are the HCP subject identifiers as found in `src/src/list_subjects_ordered_full.txt` (this can be used to run preprocessing for part of the subjects to account for reduced storage space) and `<PARAMETER_VALUES>` is taken from the table below.
