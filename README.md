@@ -11,11 +11,10 @@ This repository contains code that was used to analyze and create the figures of
 
 ```
 .
-├── bash_scripts: scripts used for preprocessing and first-level analysis, and auxiliary files for these scripts
-├── check_scripts: scripts used for the verification of the existence of output files from the analysis
+
 ├── data: .zip archives downloaded from the Human Connectome Project
 ├── results: storage of the analysis results
-└── src: Matlab/Octave functions for the various steps of the analysis, either called in bash scripts from the bash_scripts folder, or used directly via Matlab (second-level analysis) during the analysis
+└── src: source code for the analysis
 ```
 
 ## functions
