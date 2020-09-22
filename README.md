@@ -17,25 +17,11 @@ This repository contains code that was used to analyze and create the figures of
 └── src: source code for the analysis
 ```
 
-## functions
-
-For SPM, Matlab functions have been created to carry out the various steps of the analysis. The functions created for the study can be used to perform either a complete analysis for given groups of subjects and pipeline parameters, or simply parts of the analysis. Versions of the Matlab functions that are compatible with Octave have also been created (with *\_octave* added at the end of the filename) ; those are the versions that are called in the bash scripts when running the analysis (see *reproducing full analysis* below).
-
-Octave/Matlab functions and auxiliary files are stored in the **src/src folder**. The main functions are **preprocessing**, **first_level_analysis** and **second_level_analysis**, each performing one step, and **full_analysis**, which performs the whole process for one couple of groups. Each of these functions is described in detail in comment at the beginning of their files.
-
-The src/src folder also contains **.fsf template files and .py python files** used to create .fsf files for preprocessing and first-level analysis with FSL for each subject.
-
-## results
-
-[results]
-
 ## Reproducing full analysis
 
 ### Raw data
 
-The data used in the study are the functional and structural fMRI data from the HCP subjects who have completed the Motor Task (*{subject}_3T_Structural_unproc.zip* and *{subject}_3T_tfMRI_MOTOR_unproc.zip*). They have to be downloaded from the HCP website into the data folder in order to allow the functions and scripts to work.
-
-Archives of the unprocessed structural data and functional data for the Motor Paradigm of the 1080 subjects of the Human Connectome Project who have completed the study were downloaded from https://db.humanconnectome.org/ into the `data` folder.
+The data used in the study are the raw functional and structural fMRI data from the 1080 HCP subjects who have completed the Motor Task (*{subject}_3T_Structural_unproc.zip* and *{subject}_3T_tfMRI_MOTOR_unproc.zip*). Archives were downloaded from https://db.humanconnectome.org/ into the `data` folder.
 
 ### Dependencies and setup
 Octave 5.1 and SPM12 for Octave were used.
