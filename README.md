@@ -31,18 +31,35 @@ The folder path for SPM12 was specified in the file `.src/bash_scripts/spmpath.t
 
 ### Preprocessing with SPM
 
-Run  `./src/bash_scripts/preprocessing_<PARAMETER_VALUES>_list_IGRIDA.sh "<SUB1> <SUB2> <SUB3>"` in a terminal where `<SUB1>`, `<SUB2>`, `<SUB3>`... are the HCP subject identifiers as found in `src/src/list_subjects_ordered_full.txt` (this can be used to run preprocessing for part of the subjects to account for reduced storage space) and `<PARAMETER_VALUES>` is taken from the table below.
+Run  `./src/bash_scripts/preprocessing_<PARAM_PREPROC>_list_IGRIDA.sh "<SUB1> <SUB2> <SUB3>"` in a terminal where `<SUB1>`, `<SUB2>`, `<SUB3>`, etc. are the HCP subject identifiers as found in `src/src/list_subjects_ordered_full.txt` (this can be used to run preprocessing for part of the subjects to account for reduced storage space) and `<PARAM_PREPROC>` is taken from the table below.
 
-| PARAMETERS_VALUES        | Pipeline parameters           |
+| PARAM_PREPROC        | Pipeline parameters           |
 | ------------- |:-------------:|
 | 5      | smoothing 5mm |
 | 8      | smoothing 8mm |
 
-### First-Level Analysis with SPM
+### First-Level Analyses with SPM
 
-1. To perform first-level analysis and obtain the first contrast (left foot), run `./src/bash_scripts/fla_<PARAMETER_VALUES>_list_IGRIDA.sh "<SUB1> <SUB2> <SUB3>"` in a terminal where `<SUB1>`, `<SUB2>`, `<SUB3>`... are the HCP subject identifiers as found in `src/src/list_subjects_ordered_full.txt` (this can be used to run preprocessing for part of the subjects to account for reduced storage space) and `<PARAMETER_VALUES>` is taken from the table below.
+1. To perform first-level analysis and obtain the left foot contrast, run `./src/bash_scripts/fla_<PARAM_FLA>_list_IGRIDA.sh "<SUB1> <SUB2> <SUB3>"` in a terminal where `<SUB1>`, `<SUB2>`, `<SUB3>`, etc. are the HCP subject identifiers as found in `src/src/list_subjects_ordered_full.txt` (this can be used to run preprocessing for part of the subjects to account for reduced storage space) and `<PARAM_FLA>` is taken from the table below.
 
-2. Similarly to 1., run `./src/bash_scripts/fla_<PARAMETER_VALUES>_list_hand_IGRIDA.sh "<SUB1> <SUB2> <SUB3>"` in a terminal to obtain the second contrast (right hand).
+2. Similarly to 1., run `./src/bash_scripts/fla_<PARAM_FLA>_list_hand_IGRIDA.sh "<SUB1> <SUB2> <SUB3>"` in a terminal to obtain the right hand contrast.
+
+
+| PARAM_FLA        | Pipeline parameters           |
+| ------------- |:-------------:|
+| 5_0_0      | smoothing 5mm, no motion regressors, canonical HRF |
+| 5_0_1      | smoothing 5mm, no motion regressors, canonical HRF with temporal derivatives |
+| 5_6_0      | smoothing 5mm, 6 motion regressors, canonical HRF  |
+| 5_6_1      | smoothing 5mm, 6 motion regressors, canonical HRF with temporal derivatives  |
+| 5_24_0      | smoothing 5mm, 24 motion regressors, canonical HRF  |
+| 5_24_1      | smoothing 5mm, 24 motion regressors, canonical HRF with temporal derivatives  |
+| 8_0_0      | smoothing 8mm, no motion regressors, canonical HRF |
+| 8_0_1      | smoothing 8mm, no motion regressors, canonical HRF with temporal derivatives |
+| 8_6_0      | smoothing 8mm, 6 motion regressors, canonical HRF  |
+| 8_6_1      | smoothing 8mm, 6 motion regressors, canonical HRF with temporal derivatives  |
+| 8_24_0      | smoothing 8mm, 24 motion regressors, canonical HRF  |
+| 8_24_1      | smoothing 8mm, 24 motion regressors, canonical HRF with temporal derivatives  |
+
 
 ### Preprocessing and first-level analysis with FSL
 
