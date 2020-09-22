@@ -67,10 +67,24 @@ Similarly to the previous SPM scripts, we use scripts `./src/bash_scripts/prepro
 
 ### Second-level analysis and false positive rates
 
-Then, the between-group analyses (1000 repetitions for each couple of pipelines) were performed using `./src/bash_scripts/second_level_analysis_param_hand_size_corr_IGRIDA.sh {params pipeline 1 and 2} {size} {corr}` where `{params pipeline 1 and 2}` were the parameters of both pipelines, `{size}` the number of subjects in both groups for second-level analysis and `{corr}` a value that indicates what type of thresholding we use (0 : uncorrected, p>0.001, 1 : FWE correction, p>0.05). We used size=50 and corr=1 for our present study.
+1. Run `./src/bash_scripts/second_level_analysis_full_hand_spm_IGRIDA.sh` to perform the 1000 group analyses for every pair of pipelines.
 
-For example, we used `./src/bash_scripts/second_level_analysis_param_hand_size_corr_IGRIDA.sh 5 8 6 24 0 1 50 1` to perform the 1000 between-group analyses comparing pipeline FWHM=5, 6 motion regressors and HRF without temporal derivatives with pipeline FWHM=8, 24 motion regressors and HRF with temporal derivative.
+2. Run `./src/bash_scripts/false_positive_rate_full_hand_spm_IGRIDA.sh` to obtain the empirical false positive rate for every pair of pipelines.
 
-For each between-group analysis {i}, the unthresholded and thresholded maps were stored in their own subfolder `data/SLA{i}_50_hand_FWE` (for the example above: `data/SLA{i}_50_hand_FWE/smooth_5_8/reg_6_24/der_0_1`).
+The resulting estimation of the false positive rate for each pair of pipeline is stored in the following file : `results/smooth_<SMOOTH1>_reg_<REG1>_der_<DER1>/smooth_<SMOOTH2>_reg_<REG2>_der_<DER2>/mean_hand_50_FWE.mat`, with `<SMOOTH1>`, `<REG1>`, `<DER1>` the parameter values for the first pipeline and `<SMOOTH2>`, `<REG2>`, ` <DER2> ` for the second pipeline, taken from the tables below.
 
-Once all the between-group analysis for a given pair of pipeline were done, the false positive rates were computed for each between-group analysis using `./bash_scripts/false_positive_rate_full_param_hand_size_corr_IGRIDA.sh {params pipeline 1 and 2} {size} {corr}` where `{params pipeline 1 and 2}`, `{size}` and `{corr}` were defined as for the between-group analyses. The false positive rates were stored in the FPR.mat file within the between-group analysis folder (for the above example `data/SLA{i}_50_FWE_hand/smooth_5_8/reg_6_24/der_0_1/FPR.mat`). The resulting estimation of the false positive rate for each couple of pipeline was calculated and stored in the following file : `results/smooth_{s1}_reg_{r1}_der_{d1}/smooth_{s2}_reg_{r2}_der_{d2}/mean_hand_50_FWE.mat` (with s1, d1, r1, s2, d2, r2 the parameter values for both pipelines).
+| SMOOTH1, SMOOTH2        | Pipeline parameters           |
+| ------------- |:-------------:|
+| 5      | smoothing 5mm |
+| 8      | smoothing 8mm |
+
+| REG1, REG2        | Pipeline parameters           |
+| ------------- |:-------------:|
+| 0      | no motion regressors |
+| 6      | 6 motion regressors |
+| 24      | 24 motion regressors |
+
+| DER1, DER2        | Pipeline parameters           |
+| ------------- |:-------------:|
+| 0      | canonical HRF |
+| 1      | canonical HRF with temporal derivatives |
