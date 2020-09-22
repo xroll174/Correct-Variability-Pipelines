@@ -1,9 +1,9 @@
-def script_gen(subject,smooth,regist):
+def script_gen(subject,smooth,regist,fulldir,fslpath):
     import os
     subject=str(subject)
     smooth=str(smooth)
     regist=str(regist)
-    replacements={'SUBJECT':subject, 'SMOOTH':smooth}
+    replacements={'SUBJECT':subject, 'SMOOTH':smooth, 'FULLDIR':fulldir, 'FSLPATH':fslpath}
     if regist=='0':
         design_subject=open("src/design_fsf/design_preproc_"+subject+"_"+smooth+"_noreg.fsf","w")
         design_template=open("src/design_fsf/design_preproc_template_noreg.fsf")

@@ -30,7 +30,7 @@ set fmri(featwatcher_yn) 1
 set fmri(sscleanup_yn) 0
 
 # Output directory
-set fmri(outputdir) "/srv/tempdd/xarollan/data/SUBJECT/fsl_analysis/smooth_SMOOTH/reg_REG/der_DER"
+set fmri(outputdir) "FULLDIR/data/SUBJECT/fsl_analysis/smooth_SMOOTH/reg_REG/der_DER"
 
 # TR(s)
 set fmri(tr) 0.720000 
@@ -245,7 +245,7 @@ set fmri(regstandard_yn) 1
 set fmri(alternateReference_yn) 0
 
 # Standard image
-set fmri(regstandard) "/soft/igrida/neurinfo/fsl-5.0.10/data/standard/MNI152_T1_2mm_brain"
+set fmri(regstandard) "FSLPATH/data/standard/MNI152_T1_2mm_brain"
 
 # Search space for registration to standard space
 # 0   : No search
@@ -273,13 +273,13 @@ set fmri(totalVoxels) 191393280
 set fmri(ncopeinputs) 0
 
 # 4D AVW data or FEAT directory (1)
-set feat_files(1) "/srv/tempdd/xarollan/data/SUBJECT/unprocessed/3T/tfMRI_MOTOR_LR_FSL_SMOOTH.feat/filtered_func_data"
+set feat_files(1) "FULLDIR/data/SUBJECT/unprocessed/3T/tfMRI_MOTOR_LR_FSL_SMOOTH.feat/filtered_func_data"
 
 # Add confound EVs text file
 set fmri(confoundevs) 0
 
 # Subject's structural image for analysis 1
-set highres_files(1) "/srv/tempdd/xarollan/data/SUBJECT/unprocessed/3T/T1w_MPR1/SUBJECT_3T_T1w_MPR1_brain"
+set highres_files(1) "FULLDIR/data/SUBJECT/unprocessed/3T/T1w_MPR1/SUBJECT_3T_T1w_MPR1_brain"
 
 # EV 1 title
 set fmri(evtitle1) "LF"
@@ -314,7 +314,7 @@ set fmri(tempfilt_yn1) 1
 set fmri(deriv_yn1) DER
 
 # Custom EV file (EV 1)
-set fmri(custom1) "/srv/tempdd/xarollan/data/SUBJECT/unprocessed/3T/tfMRI_MOTOR_LR/LINKED_DATA/EPRIME/EVs/lf.txt"
+set fmri(custom1) "FULLDIR/data/SUBJECT/unprocessed/3T/tfMRI_MOTOR_LR/LINKED_DATA/EPRIME/EVs/lf.txt"
 
 # Gamma sigma (EV 1)
 set fmri(gammasigma1) 3
@@ -373,7 +373,7 @@ set fmri(tempfilt_yn2) 1
 set fmri(deriv_yn2) DER
 
 # Custom EV file (EV 2)
-set fmri(custom2) "/srv/tempdd/xarollan/data/SUBJECT/unprocessed/3T/tfMRI_MOTOR_LR/LINKED_DATA/EPRIME/EVs/lh.txt"
+set fmri(custom2) "FULLDIR/data/SUBJECT/unprocessed/3T/tfMRI_MOTOR_LR/LINKED_DATA/EPRIME/EVs/lh.txt"
 
 # Gamma sigma (EV 2)
 set fmri(gammasigma2) 3
@@ -432,7 +432,7 @@ set fmri(tempfilt_yn3) 1
 set fmri(deriv_yn3) DER
 
 # Custom EV file (EV 3)
-set fmri(custom3) "/srv/tempdd/xarollan/data/SUBJECT/unprocessed/3T/tfMRI_MOTOR_LR/LINKED_DATA/EPRIME/EVs/rf.txt"
+set fmri(custom3) "FULLDIR/data/SUBJECT/unprocessed/3T/tfMRI_MOTOR_LR/LINKED_DATA/EPRIME/EVs/rf.txt"
 
 # Gamma sigma (EV 3)
 set fmri(gammasigma3) 3
@@ -491,7 +491,7 @@ set fmri(tempfilt_yn4) 1
 set fmri(deriv_yn4) DER
 
 # Custom EV file (EV 4)
-set fmri(custom4) "/srv/tempdd/xarollan/data/SUBJECT/unprocessed/3T/tfMRI_MOTOR_LR/LINKED_DATA/EPRIME/EVs/rh.txt"
+set fmri(custom4) "FULLDIR/data/SUBJECT/unprocessed/3T/tfMRI_MOTOR_LR/LINKED_DATA/EPRIME/EVs/rh.txt"
 
 # Gamma sigma (EV 4)
 set fmri(gammasigma4) 3
@@ -550,7 +550,7 @@ set fmri(tempfilt_yn5) 1
 set fmri(deriv_yn5) DER
 
 # Custom EV file (EV 5)
-set fmri(custom5) "/srv/tempdd/xarollan/data/SUBJECT/unprocessed/3T/tfMRI_MOTOR_LR/LINKED_DATA/EPRIME/EVs/t.txt"
+set fmri(custom5) "FULLDIR/data/SUBJECT/unprocessed/3T/tfMRI_MOTOR_LR/LINKED_DATA/EPRIME/EVs/t.txt"
 
 # Gamma sigma (EV 5)
 set fmri(gammasigma5) 3

@@ -30,7 +30,7 @@ set fmri(featwatcher_yn) 1
 set fmri(sscleanup_yn) 0
 
 # Output directory
-set fmri(outputdir) "/srv/tempdd/xarollan/data/SUBJECT/unprocessed/3T/tfMRI_MOTOR_LR_FSL_SMOOTH"
+set fmri(outputdir) "FULLDIR/data/SUBJECT/unprocessed/3T/tfMRI_MOTOR_LR_FSL_SMOOTH"
 
 # TR(s)
 set fmri(tr) 0.720000
@@ -245,7 +245,7 @@ set fmri(regstandard_yn) 1
 set fmri(alternateReference_yn) 0
 
 # Standard image
-set fmri(regstandard) "/soft/igrida/neurinfo/fsl-5.0.10/data/standard/MNI152_T1_2mm_brain"
+set fmri(regstandard) "FSLPATH/data/standard/MNI152_T1_2mm_brain"
 
 # Search space for registration to standard space
 # 0   : No search
@@ -273,13 +273,13 @@ set fmri(totalVoxels) 191393280
 set fmri(ncopeinputs) 0
 
 # 4D AVW data or FEAT directory (1)
-set feat_files(1) "/srv/tempdd/xarollan/data/SUBJECT/unprocessed/3T/tfMRI_MOTOR_LR/SUBJECT_3T_tfMRI_MOTOR_LR"
+set feat_files(1) "FSLPATH/data/SUBJECT/unprocessed/3T/tfMRI_MOTOR_LR/SUBJECT_3T_tfMRI_MOTOR_LR"
 
 # Add confound EVs text file
 set fmri(confoundevs) 0
 
 # Subject's structural image for analysis 1
-set highres_files(1) "/srv/tempdd/xarollan/data/SUBJECT/unprocessed/3T/T1w_MPR1/SUBJECT_3T_T1w_MPR1_brain"
+set highres_files(1) "FSLPATH/data/SUBJECT/unprocessed/3T/T1w_MPR1/SUBJECT_3T_T1w_MPR1_brain"
 
 # EV 1 title
 set fmri(evtitle1) ""
