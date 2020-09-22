@@ -24,11 +24,14 @@ This repository contains code that was used to analyze and create the figures of
 The data used in the study are the raw functional and structural fMRI data from the 1080 HCP subjects who have completed the Motor Task (*{subject}_3T_Structural_unproc.zip* and *{subject}_3T_tfMRI_MOTOR_unproc.zip*). Archives were downloaded from https://db.humanconnectome.org/ into the `data` folder.
 
 ### Dependencies and setup
+
 Octave 5.1 and SPM12 for Octave were used.
 
 The folder path for SPM12 was specified in the file `.src/bash_scripts/spmpath.txt`. Additionally, the paths to the folder containing the functions was stored in `./src/bash_scripts/srcpath.txt`.
 
 ### Preprocessing and first-level analysis with SPM
+
+1. Run  `./src/bash_scripts/preprocessing_<PARAMETER_VALUES>_list_IGRIDA.sh "<SUB1> <SUB2> <SUB3>"` in a terminal where `<SUB1>`, `<SUB2>`, `<SUB3>`... are the HCP subject identifiers as found in `src/src/list_subjects_ordered_full.txt` (this can be used to run preprocessing for part of the subjects to account for reduced storage space) and `<PARAMETER_VALUES>` is taken from the table below.
 
 First, we performed the preprocessing and first-level analysis for the 1080 subjects with the following pipelines: `5_0_0`, `5_0_1`, `5_6_0`, `5_6_1`, `5_24_0`, `5_24_1`, `8_0_0`, `8_0_1`, `8_6_0`, `8_6_1`, `8_24_0`, `8_24_1`, where the first value is the smoothing kernel FWHM in mm, the second value is the number of motion regressors and the last value indicates the presence or absence of the HRF's temporal derivatives in the GLM model.
 
