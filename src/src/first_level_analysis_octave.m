@@ -60,12 +60,12 @@ function [] = first_level_analysis_octave(subject,smooth_value,reg,der)
     % {subject}/analysis/smooth_i/reg_j/der_k/, as well as the estimated
     % parameters Beta_i.
     
-    if not(exist(fullfile(data_path,'data',subject,'analysis',['smooth_',smooth_value],['reg_',reg],['der_',der],'SPM.mat')))
+      if not(exist(fullfile(data_path,'data',subject,'analysis',['smooth_',smooth_value],['reg_',reg],['der_',der],'con_0002.nii')))
       pwd
       mkdir_mult(fullfile('data',subject,'analysis',['smooth_',smooth_value],['reg_',reg],['der_',der]))
       matlabbatch{1}.spm.stats.fmri_spec.dir = {fullfile(data_path,'data',subject,'analysis',['smooth_',smooth_value],['reg_',reg],['der_',der])};
         matlabbatch{1}.spm.stats.fmri_spec.timing.units = 'secs';
-        matlabbatch{1}.spm.stats.fmri_spec.timing.RT = 0.753521126760563;
+        matlabbatch{1}.spm.stats.fmri_spec.timing.RT = 0.72;
         matlabbatch{1}.spm.stats.fmri_spec.timing.fmri_t = 16;
         matlabbatch{1}.spm.stats.fmri_spec.timing.fmri_t0 = 8;
 
@@ -132,6 +132,30 @@ function [] = first_level_analysis_octave(subject,smooth_value,reg,der)
         matlabbatch{3}.spm.stats.con.consess{1}.tcon.weights = [1,zeros(1,nparam)];
         matlabbatch{3}.spm.stats.con.consess{1}.tcon.sessrep = 'none';
         matlabbatch{3}.spm.stats.con.delete = 0;
+
+
+
+        nparam = (5 * str2num(der)) + str2num(reg) + 6;
+        i_rh = 4+3*str2num(der);
+        contr = zeros(1,nparam);
+        contr(i_rh) = 1;
+
+     	matlabbatch{3}.spm.stats.con.spmmat = cellstr(fullfile(data_path,'data',subject,'analysis',['smooth_',smooth_value],['reg_',reg],['der_',der],'SPM.mat'));
+        matlabbatch{3}.spm.stats.con.consess{2}.tcon.name = 'RH';
+        matlabbatch{3}.spm.stats.con.consess{2}.tcon.weights = contr;
+        matlabbatch{3}.spm.stats.con.consess{2}.tcon.sessrep = 'none';
+        matlabbatch{3}.spm.stats.con.delete = 0;
+
+        matlabbatch{4}.spm.stats.results.spmmat = {fullfile(data_path,'data',subject,'analysis',['smooth_',smooth_value],['reg_',reg],['der_',der],'SPM.mat')};
+        matlabbatch{4}.spm.stats.results.conspec.titlestr = '';
+        matlabbatch{4}.spm.stats.results.conspec.contrasts = Inf;
+        matlabbatch{4}.spm.stats.results.conspec.threshdesc = 'none';
+        matlabbatch{4}.spm.stats.results.conspec.thresh = 0.001;
+        matlabbatch{4}.spm.stats.results.conspec.extent = 0;
+        matlabbatch{4}.spm.stats.results.conspec.conjunction = 1;
+        matlabbatch{4}.spm.stats.results.conspec.mask.none = 1;
+        matlabbatch{4}.spm.stats.results.units = 1;
+        matlabbatch{4}.spm.stats.results.export{1}.tspm.basename = 'thresholded';
 
         spm_jobman('run',matlabbatch);
         clear matlabbatch;
