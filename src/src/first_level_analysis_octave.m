@@ -54,108 +54,130 @@ function [] = first_level_analysis_octave(subject,smooth_value,reg,der)
     
     
     
+
     % We run the first-level analysis if it has not already been done for
     % the parameters which have been entered as input. The resulting design
     % matrix SPM.mat is stored in the directory
     % {subject}/analysis/smooth_i/reg_j/der_k/, as well as the estimated
     % parameters Beta_i.
-    
-      if not(exist(fullfile(data_path,'data',subject,'analysis',['smooth_',smooth_value],['reg_',reg],['der_',der],'con_0002.nii')))
-      pwd
-      mkdir_mult(fullfile('data',subject,'analysis',['smooth_',smooth_value],['reg_',reg],['der_',der]))
-      matlabbatch{1}.spm.stats.fmri_spec.dir = {fullfile(data_path,'data',subject,'analysis',['smooth_',smooth_value],['reg_',reg],['der_',der])};
-        matlabbatch{1}.spm.stats.fmri_spec.timing.units = 'secs';
-        matlabbatch{1}.spm.stats.fmri_spec.timing.RT = 0.72;
-        matlabbatch{1}.spm.stats.fmri_spec.timing.fmri_t = 16;
-        matlabbatch{1}.spm.stats.fmri_spec.timing.fmri_t0 = 8;
+    if not(exist(fullfile(data_path,'data',subject,'analysis',['smooth_',smooth_value],['reg_',reg],['der_',der],'spmT_0002_thresholded_FWE.nii')))
+        if not(exist(fullfile(data_path,'data',subject,'analysis',['smooth_',smooth_value],['reg_',reg],['der_',der],'con_0002.nii')))
+            if not(exist(fullfile(data_path,'data',subject,'analysis',['smooth_',smooth_value],['reg_',reg],['der_',der],'SPM.mat')))
+                pwd
+                mkdir_mult(fullfile('data',subject,'analysis',['smooth_',smooth_value],['reg_',reg],['der_',der]))
+                matlabbatch{1}.spm.stats.fmri_spec.dir = {fullfile(data_path,'data',subject,'analysis',['smooth_',smooth_value],['reg_',reg],['der_',der])};
+                matlabbatch{1}.spm.stats.fmri_spec.timing.units = 'secs';
+                matlabbatch{1}.spm.stats.fmri_spec.timing.RT = 0.72;
+                matlabbatch{1}.spm.stats.fmri_spec.timing.fmri_t = 16;
+                matlabbatch{1}.spm.stats.fmri_spec.timing.fmri_t0 = 8;
 
-        if der == '1'
-            matlabbatch{1}.spm.stats.fmri_spec.bases.hrf.derivs = [1 0];
-        elseif der == '0'
-            matlabbatch{1}.spm.stats.fmri_spec.bases.hrf.derivs = [0 0];
+                if der == '1'
+                    matlabbatch{1}.spm.stats.fmri_spec.bases.hrf.derivs = [1 0];
+                elseif der == '0'
+                    matlabbatch{1}.spm.stats.fmri_spec.bases.hrf.derivs = [0 0];
+                end
+
+                if reg == '6'
+                    matlabbatch{1}.spm.stats.fmri_spec.sess.multi_reg = {fullfile(data_path,'data',subject,'unprocessed','3T','tfMRI_MOTOR_LR',['rp_',subject,'_3T_tfMRI_MOTOR_LR.txt'])};
+                elseif reg == '24'
+                    matlabbatch{1}.spm.stats.fmri_spec.sess.multi_reg = {fullfile(data_path,'data',subject,'unprocessed','3T','tfMRI_MOTOR_LR',['rp24_',subject,'_3T_tfMRI_MOTOR_LR.txt'])};
+                end    
+                matlabbatch{1}.spm.stats.fmri_spec.sess.hpf = 128;
+
+                %%
+                matlabbatch{1}.spm.stats.fmri_spec.sess.scans = cellstr(spm_file(f,'prefix',['s',smooth_value,'wr']));
+
+                %%
+                matlabbatch{1}.spm.stats.fmri_spec.sess.cond(1).name = 'lf';
+                matlabbatch{1}.spm.stats.fmri_spec.sess.cond(1).onset = onsets.ev(1,:);
+                matlabbatch{1}.spm.stats.fmri_spec.sess.cond(1).duration = 12;
+                matlabbatch{1}.spm.stats.fmri_spec.sess.cond(1).tmod = 0;
+                matlabbatch{1}.spm.stats.fmri_spec.sess.cond(1).pmod = struct('name', {}, 'param', {}, 'poly', {});
+                matlabbatch{1}.spm.stats.fmri_spec.sess.cond(1).orth = 1;
+                matlabbatch{1}.spm.stats.fmri_spec.sess.cond(2).name = 'lh';
+                matlabbatch{1}.spm.stats.fmri_spec.sess.cond(2).onset = onsets.ev(2,:);
+                matlabbatch{1}.spm.stats.fmri_spec.sess.cond(2).duration = 12;
+                matlabbatch{1}.spm.stats.fmri_spec.sess.cond(2).tmod = 0;
+                matlabbatch{1}.spm.stats.fmri_spec.sess.cond(2).pmod = struct('name', {}, 'param', {}, 'poly', {});
+                matlabbatch{1}.spm.stats.fmri_spec.sess.cond(2).orth = 1;
+                matlabbatch{1}.spm.stats.fmri_spec.sess.cond(3).name = 'rf';
+                matlabbatch{1}.spm.stats.fmri_spec.sess.cond(3).onset = onsets.ev(3,:);
+                matlabbatch{1}.spm.stats.fmri_spec.sess.cond(3).duration = 12;
+                matlabbatch{1}.spm.stats.fmri_spec.sess.cond(3).tmod = 0;
+                matlabbatch{1}.spm.stats.fmri_spec.sess.cond(3).pmod = struct('name', {}, 'param', {}, 'poly', {});
+                matlabbatch{1}.spm.stats.fmri_spec.sess.cond(3).orth = 1;
+                matlabbatch{1}.spm.stats.fmri_spec.sess.cond(4).name = 'rh';
+                matlabbatch{1}.spm.stats.fmri_spec.sess.cond(4).onset = onsets.ev(4,:);
+                matlabbatch{1}.spm.stats.fmri_spec.sess.cond(4).duration = 12;
+                matlabbatch{1}.spm.stats.fmri_spec.sess.cond(4).tmod = 0;
+                matlabbatch{1}.spm.stats.fmri_spec.sess.cond(4).pmod = struct('name', {}, 'param', {}, 'poly', {});
+                matlabbatch{1}.spm.stats.fmri_spec.sess.cond(4).orth = 1;
+                matlabbatch{1}.spm.stats.fmri_spec.sess.cond(5).name = 't';
+                matlabbatch{1}.spm.stats.fmri_spec.sess.cond(5).onset = onsets.ev(5,:);
+                matlabbatch{1}.spm.stats.fmri_spec.sess.cond(5).duration = 12;
+
+                matlabbatch{1}.spm.stats.fmri_spec.volt = 1;
+                matlabbatch{1}.spm.stats.fmri_spec.global = 'None';
+                matlabbatch{1}.spm.stats.fmri_spec.mthresh = 0.8;
+                matlabbatch{1}.spm.stats.fmri_spec.mask = {''};
+                matlabbatch{1}.spm.stats.fmri_spec.cvi = 'FAST';
+
+
+
+                matlabbatch{2}.spm.stats.fmri_est.spmmat = cellstr(fullfile(data_path,'data',subject,'analysis',['smooth_',smooth_value],['reg_',reg],['der_',der],'SPM.mat'));
+
+                spm_jobman('run',matlabbatch);
+                clear matlabbatch;                                
+            end
+
+
+            nparam = (5 * str2num(der)) + str2num(reg);
+
+            matlabbatch{1}.spm.stats.con.spmmat = cellstr(fullfile(data_path,'data',subject,'analysis',['smooth_',smooth_value],['reg_',reg],['der_',der],'SPM.mat'));
+            matlabbatch{1}.spm.stats.con.consess{1}.tcon.name = 'LF';
+            matlabbatch{1}.spm.stats.con.consess{1}.tcon.weights = [1,zeros(1,nparam)];
+            matlabbatch{1}.spm.stats.con.consess{1}.tcon.sessrep = 'none';
+            matlabbatch{1}.spm.stats.con.delete = 0;
+
+
+
+            nparam = (5 * str2num(der)) + str2num(reg) + 6;
+            i_rh = 4+3*str2num(der);
+            contr = zeros(1,nparam);
+            contr(i_rh) = 1;
+
+            matlabbatch{1}.spm.stats.con.spmmat = cellstr(fullfile(data_path,'data',subject,'analysis',['smooth_',smooth_value],['reg_',reg],['der_',der],'SPM.mat'));
+            matlabbatch{1}.spm.stats.con.consess{2}.tcon.name = 'RH';
+            matlabbatch{1}.spm.stats.con.consess{2}.tcon.weights = contr;
+            matlabbatch{1}.spm.stats.con.consess{2}.tcon.sessrep = 'none';
+            matlabbatch{1}.spm.stats.con.delete = 0;
+
+
+            spm_jobman('run',matlabbatch);
+            clear matlabbatch;
         end
 
-        if reg == '6'
-            matlabbatch{1}.spm.stats.fmri_spec.sess.multi_reg = {fullfile(data_path,'data',subject,'unprocessed','3T','tfMRI_MOTOR_LR',['rp_',subject,'_3T_tfMRI_MOTOR_LR.txt'])};
-        elseif reg == '24'
-            matlabbatch{1}.spm.stats.fmri_spec.sess.multi_reg = {fullfile(data_path,'data',subject,'unprocessed','3T','tfMRI_MOTOR_LR',['rp24_',subject,'_3T_tfMRI_MOTOR_LR.txt'])};
-        end    
-        matlabbatch{1}.spm.stats.fmri_spec.sess.hpf = 128;
+        matlabbatch{1}.spm.stats.results.spmmat = {fullfile(data_path,'data',subject,'analysis',['smooth_',smooth_value],['reg_',reg],['der_',der],'SPM.mat')};
+        matlabbatch{1}.spm.stats.results.conspec.titlestr = '';
+        matlabbatch{1}.spm.stats.results.conspec.contrasts = Inf;
+        matlabbatch{1}.spm.stats.results.conspec.threshdesc = 'none';
+        matlabbatch{1}.spm.stats.results.conspec.thresh = 0.001;
+        matlabbatch{1}.spm.stats.results.conspec.extent = 0;
+        matlabbatch{1}.spm.stats.results.conspec.conjunction = 1;
+        matlabbatch{1}.spm.stats.results.conspec.mask.none = 1;
+        matlabbatch{1}.spm.stats.results.units = 1;
+        matlabbatch{1}.spm.stats.results.export{1}.tspm.basename = 'thresholded';
 
-        %%
-        matlabbatch{1}.spm.stats.fmri_spec.sess.scans = cellstr(spm_file(f,'prefix',['s',smooth_value,'wr']));
-
-        %%
-        matlabbatch{1}.spm.stats.fmri_spec.sess.cond(1).name = 'lf';
-        matlabbatch{1}.spm.stats.fmri_spec.sess.cond(1).onset = onsets.ev(1,:);
-        matlabbatch{1}.spm.stats.fmri_spec.sess.cond(1).duration = 12;
-        matlabbatch{1}.spm.stats.fmri_spec.sess.cond(1).tmod = 0;
-        matlabbatch{1}.spm.stats.fmri_spec.sess.cond(1).pmod = struct('name', {}, 'param', {}, 'poly', {});
-        matlabbatch{1}.spm.stats.fmri_spec.sess.cond(1).orth = 1;
-        matlabbatch{1}.spm.stats.fmri_spec.sess.cond(2).name = 'lh';
-        matlabbatch{1}.spm.stats.fmri_spec.sess.cond(2).onset = onsets.ev(2,:);
-        matlabbatch{1}.spm.stats.fmri_spec.sess.cond(2).duration = 12;
-        matlabbatch{1}.spm.stats.fmri_spec.sess.cond(2).tmod = 0;
-        matlabbatch{1}.spm.stats.fmri_spec.sess.cond(2).pmod = struct('name', {}, 'param', {}, 'poly', {});
-        matlabbatch{1}.spm.stats.fmri_spec.sess.cond(2).orth = 1;
-        matlabbatch{1}.spm.stats.fmri_spec.sess.cond(3).name = 'rf';
-        matlabbatch{1}.spm.stats.fmri_spec.sess.cond(3).onset = onsets.ev(3,:);
-        matlabbatch{1}.spm.stats.fmri_spec.sess.cond(3).duration = 12;
-        matlabbatch{1}.spm.stats.fmri_spec.sess.cond(3).tmod = 0;
-        matlabbatch{1}.spm.stats.fmri_spec.sess.cond(3).pmod = struct('name', {}, 'param', {}, 'poly', {});
-        matlabbatch{1}.spm.stats.fmri_spec.sess.cond(3).orth = 1;
-        matlabbatch{1}.spm.stats.fmri_spec.sess.cond(4).name = 'rh';
-        matlabbatch{1}.spm.stats.fmri_spec.sess.cond(4).onset = onsets.ev(4,:);
-        matlabbatch{1}.spm.stats.fmri_spec.sess.cond(4).duration = 12;
-        matlabbatch{1}.spm.stats.fmri_spec.sess.cond(4).tmod = 0;
-        matlabbatch{1}.spm.stats.fmri_spec.sess.cond(4).pmod = struct('name', {}, 'param', {}, 'poly', {});
-        matlabbatch{1}.spm.stats.fmri_spec.sess.cond(4).orth = 1;
-        matlabbatch{1}.spm.stats.fmri_spec.sess.cond(5).name = 't';
-        matlabbatch{1}.spm.stats.fmri_spec.sess.cond(5).onset = onsets.ev(5,:);
-        matlabbatch{1}.spm.stats.fmri_spec.sess.cond(5).duration = 12;
-        
-        matlabbatch{1}.spm.stats.fmri_spec.volt = 1;
-        matlabbatch{1}.spm.stats.fmri_spec.global = 'None';
-        matlabbatch{1}.spm.stats.fmri_spec.mthresh = 0.8;
-        matlabbatch{1}.spm.stats.fmri_spec.mask = {''};
-        matlabbatch{1}.spm.stats.fmri_spec.cvi = 'FAST';
-
-
-
-        matlabbatch{2}.spm.stats.fmri_est.spmmat = cellstr(fullfile(data_path,'data',subject,'analysis',['smooth_',smooth_value],['reg_',reg],['der_',der],'SPM.mat'));
-
-        
-        nparam = (5 * str2num(der)) + str2num(reg);
-
-     	matlabbatch{3}.spm.stats.con.spmmat = cellstr(fullfile(data_path,'data',subject,'analysis',['smooth_',smooth_value],['reg_',reg],['der_',der],'SPM.mat'));
-        matlabbatch{3}.spm.stats.con.consess{1}.tcon.name = 'LF';
-        matlabbatch{3}.spm.stats.con.consess{1}.tcon.weights = [1,zeros(1,nparam)];
-        matlabbatch{3}.spm.stats.con.consess{1}.tcon.sessrep = 'none';
-        matlabbatch{3}.spm.stats.con.delete = 0;
-
-
-
-        nparam = (5 * str2num(der)) + str2num(reg) + 6;
-        i_rh = 4+3*str2num(der);
-        contr = zeros(1,nparam);
-        contr(i_rh) = 1;
-
-     	matlabbatch{3}.spm.stats.con.spmmat = cellstr(fullfile(data_path,'data',subject,'analysis',['smooth_',smooth_value],['reg_',reg],['der_',der],'SPM.mat'));
-        matlabbatch{3}.spm.stats.con.consess{2}.tcon.name = 'RH';
-        matlabbatch{3}.spm.stats.con.consess{2}.tcon.weights = contr;
-        matlabbatch{3}.spm.stats.con.consess{2}.tcon.sessrep = 'none';
-        matlabbatch{3}.spm.stats.con.delete = 0;
-
-        matlabbatch{4}.spm.stats.results.spmmat = {fullfile(data_path,'data',subject,'analysis',['smooth_',smooth_value],['reg_',reg],['der_',der],'SPM.mat')};
-        matlabbatch{4}.spm.stats.results.conspec.titlestr = '';
-        matlabbatch{4}.spm.stats.results.conspec.contrasts = Inf;
-        matlabbatch{4}.spm.stats.results.conspec.threshdesc = 'none';
-        matlabbatch{4}.spm.stats.results.conspec.thresh = 0.001;
-        matlabbatch{4}.spm.stats.results.conspec.extent = 0;
-        matlabbatch{4}.spm.stats.results.conspec.conjunction = 1;
-        matlabbatch{4}.spm.stats.results.conspec.mask.none = 1;
-        matlabbatch{4}.spm.stats.results.units = 1;
-        matlabbatch{4}.spm.stats.results.export{1}.tspm.basename = 'thresholded';
+        matlabbatch{1}.spm.stats.results.spmmat = {fullfile(data_path,'data',subject,'analysis',['smooth_',smooth_value],['reg_',reg],['der_',der],'SPM.mat')};
+        matlabbatch{1}.spm.stats.results.conspec.titlestr = '';
+        matlabbatch{1}.spm.stats.results.conspec.contrasts = Inf;
+        matlabbatch{1}.spm.stats.results.conspec.threshdesc = 'FWE';
+        matlabbatch{1}.spm.stats.results.conspec.thresh = 0.05;
+        matlabbatch{1}.spm.stats.results.conspec.extent = 0;
+        matlabbatch{1}.spm.stats.results.conspec.conjunction = 1;
+        matlabbatch{1}.spm.stats.results.conspec.mask.none = 1;
+        matlabbatch{1}.spm.stats.results.units = 1;
+        matlabbatch{1}.spm.stats.results.export{1}.tspm.basename = 'thresholded_FWE';
 
         spm_jobman('run',matlabbatch);
         clear matlabbatch;

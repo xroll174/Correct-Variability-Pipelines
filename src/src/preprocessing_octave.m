@@ -1,7 +1,5 @@
 function [] = preprocessing_octave(subject,smooth_value)
-  
-    % Second version of preprocessing with modifications to make it compatible 
-    % with Octave (temporary version)
+
   
   
   
@@ -107,8 +105,6 @@ function [] = preprocessing_octave(subject,smooth_value)
 
                 spm_jobman('run',matlabbatch);
                 clear matlabbatch;
-
-                system(['bash mp_diffpow24.sh ',fullfile('data',subject,'unprocessed','3T','tfMRI_MOTOR_LR',['rp_',subject,'_3T_tfMRI_MOTOR_LR.txt']),' ',fullfile('data',subject,'unprocessed','3T','tfMRI_MOTOR_LR',['rp24_',subject,'_3T_tfMRI_MOTOR_LR.txt'])]);
 
             end
 
