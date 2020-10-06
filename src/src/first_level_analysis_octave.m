@@ -60,7 +60,10 @@ function [] = first_level_analysis_octave(subject,smooth_value,reg,der)
     % matrix SPM.mat is stored in the directory
     % {subject}/analysis/smooth_i/reg_j/der_k/, as well as the estimated
     % parameters Beta_i.
-    if not(exist(fullfile(data_path,'data',subject,'analysis',['smooth_',smooth_value],['reg_',reg],['der_',der],'spmT_0002_thresholded_FWE.nii')))
+
+    e1 = exist(fullfile(data_path,'data',subject,'analysis',['smooth_',smooth_value],['reg_',reg],['der_',der],'spmT_0002_thresholded.nii'))
+    e2 = exist(fullfile(data_path,'data',subject,'analysis',['smooth_',smooth_value],['reg_',reg],['der_',der],'spmT_0002_thresholded_FWE.nii'))
+    if not(e1 & e2)
         if not(exist(fullfile(data_path,'data',subject,'analysis',['smooth_',smooth_value],['reg_',reg],['der_',der],'con_0002.nii')))
             if not(exist(fullfile(data_path,'data',subject,'analysis',['smooth_',smooth_value],['reg_',reg],['der_',der],'SPM.mat')))
                 pwd
@@ -168,16 +171,16 @@ function [] = first_level_analysis_octave(subject,smooth_value,reg,der)
         matlabbatch{1}.spm.stats.results.units = 1;
         matlabbatch{1}.spm.stats.results.export{1}.tspm.basename = 'thresholded';
 
-        matlabbatch{1}.spm.stats.results.spmmat = {fullfile(data_path,'data',subject,'analysis',['smooth_',smooth_value],['reg_',reg],['der_',der],'SPM.mat')};
-        matlabbatch{1}.spm.stats.results.conspec.titlestr = '';
-        matlabbatch{1}.spm.stats.results.conspec.contrasts = Inf;
-        matlabbatch{1}.spm.stats.results.conspec.threshdesc = 'FWE';
-        matlabbatch{1}.spm.stats.results.conspec.thresh = 0.05;
-        matlabbatch{1}.spm.stats.results.conspec.extent = 0;
-        matlabbatch{1}.spm.stats.results.conspec.conjunction = 1;
-        matlabbatch{1}.spm.stats.results.conspec.mask.none = 1;
-        matlabbatch{1}.spm.stats.results.units = 1;
-        matlabbatch{1}.spm.stats.results.export{1}.tspm.basename = 'thresholded_FWE';
+        matlabbatch{2}.spm.stats.results.spmmat = {fullfile(data_path,'data',subject,'analysis',['smooth_',smooth_value],['reg_',reg],['der_',der],'SPM.mat')};
+        matlabbatch{2}.spm.stats.results.conspec.titlestr = '';
+        matlabbatch{2}.spm.stats.results.conspec.contrasts = Inf;
+        matlabbatch{2}.spm.stats.results.conspec.threshdesc = 'FWE';
+        matlabbatch{2}.spm.stats.results.conspec.thresh = 0.05;
+        matlabbatch{2}.spm.stats.results.conspec.extent = 0;
+        matlabbatch{2}.spm.stats.results.conspec.conjunction = 1;
+        matlabbatch{2}.spm.stats.results.conspec.mask.none = 1;
+        matlabbatch{2}.spm.stats.results.units = 1;
+        matlabbatch{2}.spm.stats.results.export{1}.tspm.basename = 'thresholded_FWE';
 
         spm_jobman('run',matlabbatch);
         clear matlabbatch;

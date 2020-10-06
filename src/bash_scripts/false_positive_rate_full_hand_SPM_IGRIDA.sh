@@ -1,3 +1,5 @@
+DIR=$( dirname ${BASH_SOURCE})
+
 for smooth1 in 5 8
 do
     for smooth2 in 5 8

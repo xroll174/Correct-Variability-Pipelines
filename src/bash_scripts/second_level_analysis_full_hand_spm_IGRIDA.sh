@@ -1,3 +1,6 @@
+DIR=$( dirname ${BASH_SOURCE})
+
+
 for smooth1 in 5 8
 do
     for smooth2 in 5 8
@@ -14,6 +17,7 @@ do
 			do
 			    oarsub -l /nodes=1/core=4,walltime=40:0 "$DIR/second_level_analysis_param_hand_size_corr.sh $smooth1 $smooth2 $reg1 $reg2 $der1 $der2 $i 50 1"
 			done
+			sleep 25m
 		    done
 		done
 	    done
