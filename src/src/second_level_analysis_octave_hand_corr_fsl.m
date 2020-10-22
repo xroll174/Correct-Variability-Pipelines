@@ -1,4 +1,4 @@
-function [] = second_level_analysis_octave_hand_corr(list_1,list_2,smooth1,smooth2,reg1,reg2,der1,der2,folder,corr)
+function [] = second_level_analysis_octave_hand_soft_corr(list_1,list_2,smooth1,smooth2,reg1,reg2,der1,der2,soft1,soft2,folder)
     
     % A group analysis is performed for two groups of subjects
     % which have been preprocessed and analyzed at the first level for a
@@ -26,28 +26,21 @@ function [] = second_level_analysis_octave_hand_corr(list_1,list_2,smooth1,smoot
 
     if corr==0
        filename='spmT_0001_thresholded.nii'
-       filename2='spmT_0002_thresholded.nii'
       else
 	filename='spmT_0001_thresholded_FWE.nii'
-	filename2='spmT_0002_thresholded_FWE.nii'
     end
-
-    printf(filename)
-    printf(filename2)
-
-    a1=exist(fullfile('data',folder,['smooth_',smooth1,'_',smooth2],['reg_',reg1,'_',reg2],['der_',der1,'_',der2],filename))
-    a2=exist(fullfile('data',folder,['smooth_',smooth1,'_',smooth2],['reg_',reg1,'_',reg2],['der_',der1,'_',der2],filename2))
     
-    if not(a1 & a2)
+    if not(exist(fullfile('data',folder,['smooth_',smooth1,'_',smooth2],['reg_',reg1,'_',reg2],['der_',der1,'_',der2],filename)))
+
       if not(exist(fullfile('data',folder,['smooth_',smooth1,'_',smooth2],['reg_',reg1,'_',reg2],['der_',der1,'_',der2],'SPM.mat')))
         L1 = [];
+ 
         for i = 1:length(list_1)
-            L1 = [L1;fullfile(data_path,'data',num2str(list_1(i)),'analysis',['smooth_',smooth1],['reg_',reg1],['der_',der1],'con_0002.nii,1')];
-        end    
+	    L1 = [L1;fullfile(data_path,'data',num2str(list_1(i)),'analysis_fsl',['smooth_',smooth1],['reg_',reg1],['der_',der1,'.feat'],'reg_standard','stats','cope1.nii,1')];
+        end
 
-        L2 = [];
         for i = 1:length(list_2)
-            L2 = [L2;fullfile(data_path,'data',num2str(list_2(i)),'analysis',['smooth_',smooth2],['reg_',reg2],['der_',der2],'con_0002.nii,1')];
+	    L2 = [L2;fullfile(data_path,'data',num2str(list_2(i)),'analysis_fsl',['smooth_',smooth2],['reg_',reg2],['der_',der2,'.feat'],'reg_standard','stats','cope1.nii,1')];
         end
 
         % The files for the second level analysis are stored in the folder
@@ -81,7 +74,7 @@ function [] = second_level_analysis_octave_hand_corr(list_1,list_2,smooth1,smoot
         spm_jobman('run',matlabbatch);
         clear matlabbatch;
 
-      end
+     end     
 
       load(fullfile(data_path,'data',folder,['smooth_',smooth1,'_',smooth2],['reg_',reg1,'_',reg2],['der_',der1,'_',der2],'SPM.mat'));
       SPM.xCon=[];
@@ -98,9 +91,6 @@ function [] = second_level_analysis_octave_hand_corr(list_1,list_2,smooth1,smoot
       matlabbatch{1}.spm.stats.con.consess{2}.tcon.weights = [-1 1];
       matlabbatch{1}.spm.stats.con.consess{2}.tcon.sessrep = 'none';
       matlabbatch{1}.spm.stats.con.delete = 0;
-        
-      spm_jobman('run',matlabbatch);
-      clear matlabbatch;
 
         if corr==0
             matlabbatch{1}.spm.stats.results.spmmat = {fullfile(data_path,'data',folder,['smooth_',smooth1,'_',smooth2],['reg_',reg1,'_',reg2],['der_',der1,'_',der2],'SPM.mat')};

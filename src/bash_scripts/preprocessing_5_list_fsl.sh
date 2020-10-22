@@ -9,7 +9,7 @@ sub=$@
 # sub contains the list of subject ids given as input for preprocessing.
 
 DIR=$( dirname ${BASH_SOURCE})
-# DIR gives us the directory of the script, which also contains the .txt files containing the pathes for the octave functions directory and spm directory, which will be stored in variables srcpath and spmpath.
+# DIR gives us the directory of this script, which also contains the .txt files containing the absolute pathes of the pipelines folder and the fsl folder.
 
 fslpath=$(cat $DIR/fslpath.txt)
 fulldir=$(cat $DIR/fulldir.txt)

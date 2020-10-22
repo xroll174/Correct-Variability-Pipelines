@@ -6,7 +6,7 @@ def script_gen(subject,smooth,regist,fulldir,fslpath):
     replacements={'SUBJECT':subject, 'SMOOTH':smooth, 'FULLDIR':fulldir, 'FSLPATH':fslpath}
     if regist=='0':
         design_subject=open("src/design_fsf/design_preproc_"+subject+"_"+smooth+"_noreg.fsf","w")
-        design_template=open("src/design_fsf/design_preproc_template_noreg.fsf")
+        design_template=open("src/src/design_preproc_template_noreg.fsf")
         for line in design_template:
             for src,target in replacements.items():
                 line = line.replace(src,target)
@@ -14,7 +14,7 @@ def script_gen(subject,smooth,regist,fulldir,fslpath):
         design_subject.close()
     else:
         design_subject=open("src/design_fsf/design_preproc_"+subject+"_"+smooth+".fsf","w")
-        design_template=open("src/design_fsf/design_preproc_template.fsf")
+        design_template=open("src/src/design_preproc_template.fsf")
         for line in design_template:
             for src,target in replacements.items():
                 line = line.replace(src,target)

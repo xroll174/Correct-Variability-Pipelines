@@ -106,7 +106,7 @@ set fmri(st) 0
 set fmri(st_file) ""
 
 # BET brain extraction
-set fmri(bet_yn) 0
+set fmri(bet_yn) 1
 
 # Spatial smoothing FWHM (mm)
 set fmri(smooth) SMOOTH
@@ -273,13 +273,13 @@ set fmri(totalVoxels) 191393280
 set fmri(ncopeinputs) 0
 
 # 4D AVW data or FEAT directory (1)
-set feat_files(1) "FSLPATH/data/SUBJECT/unprocessed/3T/tfMRI_MOTOR_LR/SUBJECT_3T_tfMRI_MOTOR_LR"
+set feat_files(1) "FULLDIR/data/SUBJECT/unprocessed/3T/tfMRI_MOTOR_LR/SUBJECT_3T_tfMRI_MOTOR_LR"
 
 # Add confound EVs text file
 set fmri(confoundevs) 0
 
 # Subject's structural image for analysis 1
-set highres_files(1) "FSLPATH/data/SUBJECT/unprocessed/3T/T1w_MPR1/SUBJECT_3T_T1w_MPR1_brain"
+set highres_files(1) "FULLDIR/data/SUBJECT/unprocessed/3T/T1w_MPR1/SUBJECT_3T_T1w_MPR1_brain"
 
 # EV 1 title
 set fmri(evtitle1) ""
