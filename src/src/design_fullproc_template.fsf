@@ -15,7 +15,7 @@ set fmri(level) 1
 # 7 : Full first-level analysis
 # 1 : Pre-processing
 # 2 : Statistics
-set fmri(analysis) 2
+set fmri(analysis) 7
 
 # Use relative filenames
 set fmri(relative_yn) 0
@@ -33,7 +33,7 @@ set fmri(sscleanup_yn) 0
 set fmri(outputdir) "FULLDIR/data/SUBJECT/fsl_analysis/smooth_SMOOTH/reg_REG1/der_DER"
 
 # TR(s)
-set fmri(tr) 0.720000 
+set fmri(tr) 0.720000
 
 # Total volumes
 set fmri(npts) 284
@@ -53,7 +53,7 @@ set fmri(multiple) 1
 set fmri(inputtype) 2
 
 # Carry out pre-stats processing?
-set fmri(filtering_yn) 0
+set fmri(filtering_yn) 1
 
 # Brain/background threshold, %
 set fmri(brain_thresh) 10
@@ -109,7 +109,7 @@ set fmri(st_file) ""
 set fmri(bet_yn) 1
 
 # Spatial smoothing FWHM (mm)
-set fmri(smooth) 5
+set fmri(smooth) SMOOTH
 
 # Intensity normalization
 set fmri(norm_yn) 0
@@ -179,7 +179,7 @@ set fmri(threshmask) ""
 # 1 : Uncorrected
 # 2 : Voxel
 # 3 : Cluster
-set fmri(thresh) 0
+set fmri(thresh) 3
 
 # P threshold
 set fmri(prob_thresh) 0.05
@@ -212,7 +212,7 @@ set fmri(rendertype) 1
 set fmri(bgimage) 1
 
 # Create time series plots
-set fmri(tsplot_yn) 0
+set fmri(tsplot_yn) 1
 
 # Registration to initial structural
 set fmri(reginitial_highres_yn) 0
@@ -239,7 +239,7 @@ set fmri(reghighres_search) 90
 set fmri(reghighres_dof) 6
 
 # Registration to standard image?
-set fmri(regstandard_yn) 1
+set fmri(regstandard_yn) REGIST
 
 # Use alternate reference images?
 set fmri(alternateReference_yn) 0
@@ -273,7 +273,7 @@ set fmri(totalVoxels) 191393280
 set fmri(ncopeinputs) 0
 
 # 4D AVW data or FEAT directory (1)
-set feat_files(1) "FULLDIR/data/SUBJECT/unprocessed/3T/tfMRI_MOTOR_LR_FSL_SMOOTH.feat/filtered_func_data"
+set feat_files(1) "FULLDIR/data/SUBJECT/unprocessed/3T/tfMRI_MOTOR_LR/SUBJECT_3T_tfMRI_MOTOR_LR"
 
 # Add confound EVs text file
 set fmri(confoundevs) 0

@@ -1,4 +1,8 @@
 function [] = false_positive_rate_octave_full_hand_size_corr(smooth1,smooth2,reg1,reg2,der1,der2,size,corr)
+
+    po_1=pipeline_order(smooth1,reg1,der1)
+    po_2=pipeline_order(smooth2,reg2,der2)
+    
     smooth1 = num2str(smooth1);
     smooth2 = num2str(smooth2);
     reg1 = num2str(reg1);
@@ -7,7 +11,7 @@ function [] = false_positive_rate_octave_full_hand_size_corr(smooth1,smooth2,reg
     der2 = num2str(der2);
 
     
-     if pipeline_order(smooth1,reg1,der1)<=pipeline_order(smooth2,reg2,der2)
+     if po_1<=po_2
         smooth1_bis=smooth1
         reg1_bis=reg1
         der1_bis=der1
@@ -31,7 +35,7 @@ function [] = false_positive_rate_octave_full_hand_size_corr(smooth1,smooth2,reg
         Lfract=[]
         Lmean = []
 
-        if pipeline_order(smooth1,reg1,der1)<=pipeline_order(smooth2,reg2,der2)	
+        if po_1<=po_2
 	    for i=1:1000
 		a = load(fullfile('data',['SLA',num2str(i),'_',num2str(size),'_hand'],['smooth_',smooth1_bis,'_',smooth2_bis],['reg_',reg1_bis,'_',reg2_bis],['der_',der1_bis,'_',der2_bis],'FPR.mat'))
 		Lfract=[Lfract,a.fract]
@@ -40,7 +44,7 @@ function [] = false_positive_rate_octave_full_hand_size_corr(smooth1,smooth2,reg
 	else
 	    for i=1:1000
 		a = load(fullfile('data',['SLA',num2str(i),'_',num2str(size),'_hand'],['smooth_',smooth1_bis,'_',smooth2_bis],['reg_',reg1_bis,'_',reg2_bis],['der_',der1_bis,'_',der2_bis],'FPR2.mat'))
-		Lfract=[Lfract,a.fract]
+		Lfract=[Lfract,a.fract2]
 		Lmean = [Lmean,mean(Lfract)]
 	    end
 	end
@@ -58,7 +62,7 @@ function [] = false_positive_rate_octave_full_hand_size_corr(smooth1,smooth2,reg
         Lfract=[]
         Lmean = []
 
-	if pipeline_order(smooth1,reg1,der1)<=pipeline_order(smooth2,reg2,der2)	
+	if po_1<=po_2	
 	    for i=1:1000
 		a = load(fullfile('data',['SLA',num2str(i),'_',num2str(size),'_hand'],['smooth_',smooth1_bis,'_',smooth2_bis],['reg_',reg1_bis,'_',reg2_bis],['der_',der1_bis,'_',der2_bis],'FPR_FWE.mat'))
 		Lfract=[Lfract,((a.fract)>0)*1]
@@ -67,7 +71,7 @@ function [] = false_positive_rate_octave_full_hand_size_corr(smooth1,smooth2,reg
 	else
 	    for i=1:1000
 		a = load(fullfile('data',['SLA',num2str(i),'_',num2str(size),'_hand'],['smooth_',smooth1_bis,'_',smooth2_bis],['reg_',reg1_bis,'_',reg2_bis],['der_',der1_bis,'_',der2_bis],'FPR_FWE_2.mat'))
-		Lfract=[Lfract,((a.fract)>0)*1]
+		Lfract=[Lfract,((a.fract2)>0)*1]
 		Lmean = [Lmean,mean(Lfract)]
 	    end
 	end

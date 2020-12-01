@@ -37,7 +37,11 @@ do
     FILE=data/${sub[i]}/unprocessed/3T/tfMRI_MOTOR_LR_FSL_8.feat/filtered_func_data.nii.gz
     echo "$FILE"
     if ! [ -f "$FILE" ]; then
-	echo "preprocessing 8"
+
+	rm -r data/${sub[i]}/unprocessed/3T/tfMRI_MOTOR_LR_FSL_8.feat
+
+	rm src/design_fsf/design_preproc_${sub[i]}_8.fsf
+	
 	python3 -c "import sys; sys.path.insert(1,'src/src'); from script_generation import script_gen; script_gen(${sub[i]},8,1,'$fulldir','$fslpath');"
 	feat src/design_fsf/design_preproc_${sub[i]}_8.fsf
     fi

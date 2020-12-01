@@ -28,6 +28,8 @@ do
     if ! [ -f "$GZFUNC" ]; then
 	unzip data/${sub[i]}_3T_tfMRI_MOTOR_unproc.zip -d data
     fi
+
+    scp -r data/${sub[i]}/unprocessed/3T/tfMRI_MOTOR_LR/LINKED_DATA/EPRIME/EVs data/${sub[i]}
     
     BRAINFILE=data/${sub[i]}/unprocessed/3T/T1w_MPR1/${sub[i]}_3T_T1w_MPR1_brain.nii.gz
     if ! [ -f "$BRAINFILE" ]; then
@@ -36,6 +38,11 @@ do
     
     FILE=data/${sub[i]}/unprocessed/3T/tfMRI_MOTOR_LR_FSL_5.feat/filtered_func_data.nii.gz
     if ! [ -f "$FILE" ]; then
+
+	rm -r data/${sub[i]}/unprocessed/3T/tfMRI_MOTOR_LR_FSL_5.feat
+
+	rm src/design_fsf/design_preproc_${sub[i]}_5.fsf
+	
 	python3 -c "import sys; sys.path.insert(1,'src/src'); from script_generation import script_gen; script_gen(${sub[i]},5,1,'$fulldir','$fslpath');"
 	feat src/design_fsf/design_preproc_${sub[i]}_5.fsf
     fi

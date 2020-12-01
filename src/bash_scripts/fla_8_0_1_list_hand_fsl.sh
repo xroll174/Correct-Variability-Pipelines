@@ -23,8 +23,13 @@ do
     echo ${sub[i]}
     
     
-    FILE=data/${sub[i]}/analysis_fsl/smooth_8/reg_0/der_1.feat/stats/cope1.nii
+    FILE=data/${sub[i]}/fsl_analysis/smooth_8/reg_0/der_1.feat/reg_standard/stats/cope1.nii
     if ! [ -f "$FILE" ]; then
+
+	rm -r data/${sub[i]}/fsl_analysis/smooth_8/reg_0/der_1.feat
+
+	rm src/design_fsf/design_fla_${sub[i]}_8_0_1.fsf
+	
 	python3 -c "import sys; sys.path.insert(1,'src/src'); from script_generation_fla import script_gen_fla; script_gen_fla(${sub[i]},8,0,1,'$fulldir','$fslpath');"
 
 	feat src/design_fsf/design_fla_${sub[i]}_8_0_1.fsf
