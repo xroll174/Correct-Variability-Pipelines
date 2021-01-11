@@ -17,7 +17,7 @@ do
 			a=0
 			for ((i=1; i<1001;i++))
 			do
-			    FILE=data/SLA${i}_50_hand/smooth_${smooth1}_${smooth2}/reg_${reg1}_${reg2}/der_${der1}_${der2}/spmT_0001_thresholded_FWE.nii
+			    FILE=data/SLA${i}_50_hand/smooth_${smooth1}_${smooth2}/reg_${reg1}_${reg2}/der_${der1}_${der2}/spmT_0001_thresholded_FWE.nii.gz
 			    if ! [ -f "$FILE" ]; then
 				a=$(($a+1))
 			    fi
@@ -30,7 +30,7 @@ do
 				b=0
 				for ((j=1; j<11;j++))
 				do
-				    FILE=data/SLA$((10*$i+$j))_50_hand/smooth_${smooth1}_${smooth2}/reg_${reg1}_${reg2}/der_${der1}_${der2}/spmT_0001_thresholded_FWE.nii
+				    FILE=data/SLA$((10*$i+$j))_50_hand/smooth_${smooth1}_${smooth2}/reg_${reg1}_${reg2}/der_${der1}_${der2}/spmT_0001_thresholded_FWE.nii.gz
 				    if ! [ -f "$FILE" ]; then
 					b=$(($b+1))
 				    fi

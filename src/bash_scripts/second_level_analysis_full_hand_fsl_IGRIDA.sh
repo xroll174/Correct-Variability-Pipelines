@@ -13,29 +13,34 @@ do
 		do
 		    for der2 in 0 1
 		    do
-		        if [ $smooth1 -lt $smooth2 ]; then
-			    for ((i=0; i<100;i++))	
+			echo "$smooth1 $smooth2 $reg1 $reg2 $der1 $der2"
+			a=0
+			for ((i=1; i<1001;i++))
+			do
+			    FILE=data/SLA${i}_50_hand_FSL/smooth_${smooth1}_${smooth2}/reg_${reg1}_${reg2}/der_${der1}_${der2}/spmT_0001_thresholded_FWE.nii
+			    if ! [ -f "$FILE" ]; then
+				a=$(($a+1))
+			    fi
+			done
+			echo "$a"
+			if [ $a -gt 0 ]; then
+			    for ((i=0; i<100;i++))
 			    do
-			        oarsub -l /nodes=1/core=4,walltime=40:0 "$DIR/second_level_analysis_param_hand_size_corr_fsl.sh $smooth1 $smooth2 $reg1 $reg2 $der1 $der2 $i 50 1"
-			    done
-			    
-			elif [ $smooth1 -eq $smooth2 ]; then
-                            if [ $reg1 -lt $reg2 ]; then
-                                for ((i=0; i<100;i++))
-                                do
+				echo $i
+				b=0
+				for ((j=1; j<11;j++))
+				do
+				    FILE=data/SLA$((10*$i+$j))_50_hand_FSL/smooth_${smooth1}_${smooth2}/reg_${reg1}_${reg2}/der_${der1}_${der2}/spmT_0001_thresholded_FWE.nii
+				    if ! [ -f "$FILE" ]; then
+					b=$(($b+1))
+				    fi
+				done
+				if [ $b -gt 0 ]; then
 			            oarsub -l /nodes=1/core=4,walltime=40:0 "$DIR/second_level_analysis_param_hand_size_corr_fsl.sh $smooth1 $smooth2 $reg1 $reg2 $der1 $der2 $i 50 1"
-			        done
-			       
-                            elif [ $reg1 -eq $reg2 ]; then
-                                if [ $der1 -le $der2 ]; then
-				    for ((i=0; i<100;i++))
-			            do
-			                oarsub -l /nodes=1/core=4,walltime=40:0 "$DIR/second_level_analysis_param_hand_size_corr_fsl.sh $smooth1 $smooth2 $reg1 $reg2 $der1 $der2 $i 50 1"
-       			            done
-				  
-                                fi
-                            fi
-			fi
+				    sleep 2s
+				fi
+			    done
+		        fi
 		    done
 		done
 	    done
